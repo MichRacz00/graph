@@ -22,6 +22,8 @@ def colorpartition(graph_list, initial_coloring=False):
         graph_color_list = []
         for g in graph_list:
             graph_color_list.append(create_color_groups(g.vertices))
+        for g in graph_color_list:
+            g[min(g.keys())][0].colornum = max(g.keys()) + 1
 
 
 
