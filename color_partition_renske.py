@@ -18,8 +18,12 @@ def colorpartition(graph_list, initial_coloring=False):
     if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified
         for vertex in all_vertices:
             vertex.colornum = 0
-    else:   # Select a vertex for individualization reffinment
-        print(create_color_groups(graph_list[0].vertices))
+    else:   # Select a vertex for individualization refinment
+        graph_color_list = []
+        for g in graph_list:
+            graph_color_list.append(create_color_groups(g.vertices))
+
+
 
     patterns = {}
 
