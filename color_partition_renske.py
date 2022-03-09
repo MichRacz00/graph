@@ -18,6 +18,8 @@ def colorpartition(graph_list, initial_coloring=False):
     if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified
         for vertex in all_vertices:
             vertex.colornum = 0
+    else:   # Select a vertex for individualization reffinment
+        print(create_color_groups(graph_list[0].vertices))
 
     patterns = {}
 
@@ -58,11 +60,27 @@ def result(graph_list):
         if discrete:
             print(f'{this_set} discrete')
         else:
+            graph_next_iteration = []
+            for i in this_set:
+                graph_next_iteration.append(graph_list[i])
+            colorpartition(graph_next_iteration, True)
             print(this_set)
     pass
 
 
-with open('SignOffColRefThu6.grl') as f:
+def create_color_groups(vertices):
+    color_groups = {}
+    for v in vertices:
+        vertex_color = v.colornum
+        if vertex_color in color_groups.keys():
+            color_groups[vertex_color].append(v)
+        else:
+            color_groups[vertex_color] = [v]
+
+    return color_groups
+
+
+with open('testfiles/SignOffColRefFri1.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
