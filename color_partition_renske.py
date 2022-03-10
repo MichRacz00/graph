@@ -158,7 +158,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/torus72.grl') as f:
+with open('testfiles/torus144.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
