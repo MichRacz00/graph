@@ -1,14 +1,18 @@
 from graph_io import *
 import timeit
 
+
 def color_nbs(vertex):  # COLOR_NeighBourS
     return sorted([v.colornum for v in vertex.neighbours])
+
 
 def colors_in_graph(graph):  # Give all colors for a given graph
     return sorted([v.colornum for v in graph])
 
+
 def identifier(v):  # Identifier for a vertex: its own color followed by its neighbours colors, sorted
     return tuple([v.colornum] + color_nbs(v))
+
 
 def colorpartition(graph_list, initial_coloring=False):
     all_vertices = []
@@ -18,14 +22,6 @@ def colorpartition(graph_list, initial_coloring=False):
     if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified
         for vertex in all_vertices:
             vertex.colornum = 0
-    else:   # Select a vertex for individualization refinment
-        graph_color_list = []
-        for g in graph_list:
-            graph_color_list.append(create_color_groups(g.vertices))
-        for g in graph_color_list:
-            g[min(g.keys())][0].colornum = max(g.keys()) + 1
-
-
 
     patterns = {}
 
@@ -49,6 +45,7 @@ def colorpartition(graph_list, initial_coloring=False):
     result(graph_list)
     pass
 
+
 def result(graph_list):
     checked = []
     print('Sets of possibly isomorphic graphs:')
@@ -66,24 +63,72 @@ def result(graph_list):
         if discrete:
             print(f'{this_set} discrete')
         else:
-            graph_next_iteration = []
-            for i in this_set:
-                graph_next_iteration.append(graph_list[i])
-            colorpartition(graph_next_iteration, True)
             print(this_set)
+
+            all_vertices = []
+            for graph in graph_list:
+                all_vertices += graph.vertices
+
+            for vertex in all_vertices:
+                vertex.colornum = 0
+
+            v, w = get_vertex_w_color(get_color_group(colors_in_graph(graph1)), graph1, graph2)
+            v.colornum = 1
+            w.colornum = 1
+
+            iteration(graph_list)
+            print(colors_in_graph(graph1))
+            print(colors_in_graph(graph2))
+
+            if colors_in_graph(graph1) == colors_in_graph(graph2):
+                discrete = (len(set(colors_in_graph(graph1))) == len(graph1))
+                if discrete:
+                    print(f'{this_set} discrete')
+
+
     pass
 
 
-def create_color_groups(vertices):
-    color_groups = {}
-    for v in vertices:
-        vertex_color = v.colornum
-        if vertex_color in color_groups.keys():
-            color_groups[vertex_color].append(v)
+def get_color_group(coloring):
+    duplicates = []
+    for color in coloring:
+        if color not in duplicates:
+            duplicates.append(color)
         else:
-            color_groups[vertex_color] = [v]
+            return color
 
-    return color_groups
+def get_vertex_w_color(color, graph1, graph2):
+    res = None
+    for v in graph1.vertices:
+        if v.colornum == color:
+            res = v
+    for g in graph2.vertices:
+        if g.colornum == color:
+            return res, g
+
+def iteration(graph_list):
+    all_vertices = []
+    for graph in graph_list:
+        all_vertices += graph.vertices
+
+    patterns = {}
+
+    while True:  # Color refinement algorithm
+        highest_color = 0
+        new_patterns = {}
+        for vertex in all_vertices:  # Check each vertex once every iteration
+            neighbourhood = identifier(vertex)
+            if neighbourhood in new_patterns:
+                vertex.newcolor = new_patterns[neighbourhood]
+            else:
+                highest_color += 1
+                new_patterns[neighbourhood] = highest_color
+                vertex.newcolor = highest_color
+        if patterns == new_patterns:
+            break
+        patterns = new_patterns
+        for v in all_vertices:
+            v.colornum = v.newcolor
 
 
 with open('testfiles/SignOffColRefFri1.grl') as f:
@@ -91,4 +136,4 @@ with open('testfiles/SignOffColRefFri1.grl') as f:
 t1 = timeit.default_timer()
 colorpartition(L)
 t2 = timeit.default_timer()
-print(t2-t1)
+print(t2 - t1)
