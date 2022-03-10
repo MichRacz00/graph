@@ -62,22 +62,22 @@ def result(graph_list):
                 this_set += [i + j + 1]
 
         if discrete:
-            print(f'{this_set} discrete')
+            if this_set not in results:
+                results.append(this_set)
         else:
-            print(this_set)
             branches = dict()
             color = get_color_group(colors_in_graph(graph_list[this_set[0]]))
             branches[color] = []
-            print(color)
             for index in this_set:
                 v = get_vertex_w_color(color, graph_list[index])
                 branches[color].append(v)
-            branching(graph_list, this_set, branches)
+            branching(graph_list, this_set, branches, results)
+            print(results)
             return
     pass
 
 
-def branching(graph_list, this_set, branches):
+def branching(graph_list, this_set, branches, results):
     discrete = False
     while not discrete:
         for graph in graph_list:
@@ -88,13 +88,7 @@ def branching(graph_list, this_set, branches):
             for v in branches[c]:
                 v.colornum = c + 1
 
-        for graph in graph_list:
-            print(colors_in_graph(graph))
-
         iteration(graph_list)
-
-        for graph in graph_list:
-            print(colors_in_graph(graph))
 
         checked = []
         for i, graph1 in enumerate(graph_list):
@@ -109,9 +103,9 @@ def branching(graph_list, this_set, branches):
                     this_set += [i + j + 1]
 
             if discrete:
-                print(this_set)
+                if this_set not in results:
+                    results.append(this_set)
             else:
-                print(this_set)
                 color = get_color_group(colors_in_graph(graph_list[this_set[0]]))
                 branches[color] = []
                 for index in this_set:
@@ -159,7 +153,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/torus144.grl') as f:
+with open('testfiles/trees90.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
