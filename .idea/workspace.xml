@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="duplicates issue seems to be fixed">
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="fixing some issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
     </list>
@@ -69,7 +69,7 @@
       <updated>1646899551091</updated>
       <workItem from="1646899553743" duration="215000" />
       <workItem from="1646906837710" duration="1691000" />
-      <workItem from="1646914494755" duration="4816000" />
+      <workItem from="1646914494755" duration="5596000" />
     </task>
     <task id="LOCAL-00001" summary="New branch and trying some stuff">
       <created>1646908444517</created>
@@ -120,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646918720157</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fixing some issues">
+      <created>1646919360262</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1646919360262</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,10 +152,18 @@
     <MESSAGE value="Gets expected result, still a mess though" />
     <MESSAGE value="issues with duplicates" />
     <MESSAGE value="duplicates issue seems to be fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="duplicates issue seems to be fixed" />
+    <MESSAGE value="fixing some issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing some issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/color_partition_renske.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -159,6 +174,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1646919333263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1646920124815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

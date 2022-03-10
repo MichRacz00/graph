@@ -73,7 +73,6 @@ def result(graph_list):
                 branches[color].append(v)
             branching(graph_list, this_set, branches, results)
             print(results)
-            return
     pass
 
 
@@ -111,6 +110,7 @@ def branching(graph_list, this_set, branches, results):
                 for index in this_set:
                     v = get_vertex_w_color(color, graph_list[index])
                     branches[color].append(v)
+                branching(graph_list, this_set, branches, results)
 
 
 def get_color_group(coloring):
@@ -153,7 +153,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/trees90.grl') as f:
+with open('testfiles/trees11.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
