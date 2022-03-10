@@ -64,29 +64,57 @@ def result(graph_list):
             print(f'{this_set} discrete')
         else:
             print(this_set)
-
-            all_vertices = []
-            for graph in graph_list:
-                all_vertices += graph.vertices
-
-            for vertex in all_vertices:
-                vertex.colornum = 0
-
-            v, w = get_vertex_w_color(get_color_group(colors_in_graph(graph1)), graph1, graph2)
-            v.colornum = 1
-            w.colornum = 1
-
-            iteration(graph_list)
-            print(colors_in_graph(graph1))
-            print(colors_in_graph(graph2))
-
-            if colors_in_graph(graph1) == colors_in_graph(graph2):
-                discrete = (len(set(colors_in_graph(graph1))) == len(graph1))
-                if discrete:
-                    print(f'{this_set} discrete')
-
-
+            branches = dict()
+            color = get_color_group(colors_in_graph(graph_list[this_set[0]]))
+            branches[color] = []
+            print(color)
+            for index in this_set:
+                v = get_vertex_w_color(color, graph_list[index])
+                branches[color].append(v)
+            branching(graph_list, this_set, branches)
     pass
+
+
+def branching(graph_list, this_set, branches):
+    for graph in graph_list:
+        for v in graph.vertices:
+            v.colornum = 0
+
+    for c in branches:
+        for v in branches[c]:
+            v.colornum = c + 1
+
+    for graph in graph_list:
+        print(colors_in_graph(graph))
+
+    iteration(graph_list)
+
+    for graph in graph_list:
+        print(colors_in_graph(graph))
+
+    checked = []
+    for i, graph1 in enumerate(graph_list):
+        if graph1 in checked:
+            continue
+        discrete = (len(set(colors_in_graph(graph1))) == len(graph1))
+
+        this_set = [i]
+        for j, graph2 in enumerate(graph_list[i + 1:]):
+            if colors_in_graph(graph1) == colors_in_graph(graph2):
+                checked.append(graph2)
+                this_set += [i + j + 1]
+
+        if discrete:
+            print(f'{this_set} discrete')
+        else:
+            print(this_set)
+            color = get_color_group(colors_in_graph(graph_list[this_set[0]]))
+            branches[color] = []
+            print(color)
+            for index in this_set:
+                v = get_vertex_w_color(color, graph_list[index])
+                branches[color].append(v)
+            branching(graph_list, this_set, branches)
 
 
 def get_color_group(coloring):
@@ -97,14 +125,12 @@ def get_color_group(coloring):
         else:
             return color
 
-def get_vertex_w_color(color, graph1, graph2):
-    res = None
-    for v in graph1.vertices:
+
+def get_vertex_w_color(color, graph):
+    for v in graph.vertices:
         if v.colornum == color:
-            res = v
-    for g in graph2.vertices:
-        if g.colornum == color:
-            return res, g
+            return v
+
 
 def iteration(graph_list):
     all_vertices = []
@@ -131,7 +157,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/SignOffColRefFri1.grl') as f:
+with open('testfiles/torus24.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
