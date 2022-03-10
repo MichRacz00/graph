@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Gets expected result for matches but duplicated">
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Gets expected result, still a mess though">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +69,7 @@
       <updated>1646899551091</updated>
       <workItem from="1646899553743" duration="215000" />
       <workItem from="1646906837710" duration="1691000" />
-      <workItem from="1646914494755" duration="3177000" />
+      <workItem from="1646914494755" duration="3694000" />
     </task>
     <task id="LOCAL-00001" summary="New branch and trying some stuff">
       <created>1646908444517</created>
@@ -84,7 +85,21 @@
       <option name="project" value="LOCAL" />
       <updated>1646917540778</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Gets expected result">
+      <created>1646917685661</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1646917685661</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Gets expected result, still a mess though">
+      <created>1646917790685</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1646917790686</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,7 +120,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="New branch and trying some stuff" />
     <MESSAGE value="Gets expected result for matches but duplicated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gets expected result for matches but duplicated" />
+    <MESSAGE value="Gets expected result" />
+    <MESSAGE value="Gets expected result, still a mess though" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gets expected result, still a mess though" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -119,6 +136,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1646917666445" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1646918154366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
