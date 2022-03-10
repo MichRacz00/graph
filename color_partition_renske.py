@@ -47,6 +47,7 @@ def colorpartition(graph_list, initial_coloring=False):
 
 
 def result(graph_list):
+    results = []
     checked = []
     print('Sets of possibly isomorphic graphs:')
     for i, graph1 in enumerate(graph_list):
@@ -72,6 +73,7 @@ def result(graph_list):
                 v = get_vertex_w_color(color, graph_list[index])
                 branches[color].append(v)
             branching(graph_list, this_set, branches)
+            return
     pass
 
 
@@ -157,7 +159,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/products72.grl') as f:
+with open('testfiles/torus144.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Gets expected result, still a mess though">
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="issues with duplicates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
     </list>
@@ -69,7 +69,7 @@
       <updated>1646899551091</updated>
       <workItem from="1646899553743" duration="215000" />
       <workItem from="1646906837710" duration="1691000" />
-      <workItem from="1646914494755" duration="4040000" />
+      <workItem from="1646914494755" duration="4111000" />
     </task>
     <task id="LOCAL-00001" summary="New branch and trying some stuff">
       <created>1646908444517</created>
@@ -106,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646918233560</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="issues with duplicates">
+      <created>1646918592575</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1646918592575</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,7 +136,8 @@
     <MESSAGE value="Gets expected result for matches but duplicated" />
     <MESSAGE value="Gets expected result" />
     <MESSAGE value="Gets expected result, still a mess though" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gets expected result, still a mess though" />
+    <MESSAGE value="issues with duplicates" />
+    <option name="LAST_COMMIT_MESSAGE" value="issues with duplicates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
