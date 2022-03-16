@@ -22,6 +22,7 @@ def colorpartition(graph_list, initial_coloring=False):
     if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified
         for vertex in all_vertices:
             vertex.colornum = 0
+
     iteration(graph_list)
     result(graph_list)
 
@@ -30,6 +31,7 @@ def colorpartition(graph_list, initial_coloring=False):
 
 def result(graph_list):
     checked = []
+    lst = graph_list
     print('Sets of possibly isomorphic graphs:')
     for i, graph1 in enumerate(graph_list):
         if graph1 in checked:
@@ -43,7 +45,7 @@ def result(graph_list):
                     print(f'{this_set} 1')
                 if len(set(colors_in_graph(graph1))) != len(graph1):
                     graphs = [graph_list[this_set[0]], graph_list[this_set[-1]]]
-                    count = countIsomorphism(graphs, dict())
+                    count = countIsomorphism(graphs, {})
 
                     if count != 0:
                         print(str(this_set) + " " + str(count))
@@ -51,8 +53,11 @@ def result(graph_list):
                     else:
                         del this_set[-1]
 
-                    coloring([graph1, graph2], dict())
-                    iteration([graph1, graph2])
+                    for graph in graph_list:
+                        for v in graph.vertices:
+                            v.colornum = 0
+
+                    iteration(graph_list)
 
     pass
 
@@ -78,21 +83,19 @@ def countIsomorphism(graphs, col):
         col[color_class] = []
         col[color_class].append(x)
         col[color_class].append(y)
-        coloring(graphs, col)
+
+        for graph in graphs:
+            for v in graph.vertices:
+                v.colornum = 0
+
+        for color in col:
+            for v in col[color]:
+                v.colornum = color
+
         num += countIsomorphism(graphs, col)
         col[color_class] = []
 
     return num
-
-
-def coloring(graphs, colors):
-    for graph in graphs:
-        for v in graph.vertices:
-            v.colornum = 0
-
-    for color in colors:
-        for v in colors[color]:
-            v.colornum = color
 
 
 def iteration(graph_list):
@@ -120,7 +123,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/products72.grl') as f:
+with open('testfiles/wheeljoin14.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
