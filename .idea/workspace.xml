@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="fixing some issues">
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Seems to work correctly for now, just slow as fuck">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
     </list>
@@ -69,7 +69,9 @@
       <updated>1646899551091</updated>
       <workItem from="1646899553743" duration="215000" />
       <workItem from="1646906837710" duration="1691000" />
-      <workItem from="1646914494755" duration="5596000" />
+      <workItem from="1646914494755" duration="5735000" />
+      <workItem from="1646991228756" duration="4012000" />
+      <workItem from="1647417724104" duration="6856000" />
     </task>
     <task id="LOCAL-00001" summary="New branch and trying some stuff">
       <created>1646908444517</created>
@@ -127,7 +129,35 @@
       <option name="project" value="LOCAL" />
       <updated>1646919360262</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="torus, products, trees, bigtrees work&#10;cubes, modules, wheels don't work yet">
+      <created>1646920229988</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1646920229988</updated>
+    </task>
+    <task id="LOCAL-00010" summary="test files">
+      <created>1646920241186</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1646920241186</updated>
+    </task>
+    <task id="LOCAL-00011" summary="correct outcomes of tests file">
+      <created>1646995247973</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1646995247973</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Seems to work correctly for now, just slow as fuck">
+      <created>1647424355835</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1647424355835</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,15 +183,24 @@
     <MESSAGE value="issues with duplicates" />
     <MESSAGE value="duplicates issue seems to be fixed" />
     <MESSAGE value="fixing some issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing some issues" />
+    <MESSAGE value="torus, products, trees, bigtrees work&#10;cubes, modules, wheels don't work yet" />
+    <MESSAGE value="test files" />
+    <MESSAGE value="correct outcomes of tests file" />
+    <MESSAGE value="Seems to work correctly for now, just slow as fuck" />
+    <option name="LAST_COMMIT_MESSAGE" value="Seems to work correctly for now, just slow as fuck" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/color_partition_renske.py</url>
-          <line>107</line>
-          <option name="timeStamp" value="14" />
+          <line>52</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/color_partition_renske.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -174,6 +213,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1646920124815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1647424732193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -59,6 +59,8 @@ def result(graph_list):
         for j, graph2 in enumerate(graph_list[i + 1:]):
             if colors_in_graph(graph1) == colors_in_graph(graph2):
                 this_set += [i + j + 1]
+                if discrete:
+                    print(f'{this_set} 1')
                 if not discrete:
                     graphs = [graph_list[this_set[0]], graph_list[this_set[-1]]]
                     count = countIsomorphism(graphs, dict())
@@ -71,9 +73,6 @@ def result(graph_list):
 
                     coloring([graph1, graph2], dict())
                     iteration([graph1, graph2])
-
-        if discrete:
-            print(f'{this_set} 1')
 
     pass
 
@@ -162,7 +161,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/wheelstar12.grl') as f:
+with open('testfiles/cubes9.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
