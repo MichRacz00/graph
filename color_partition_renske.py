@@ -1,5 +1,6 @@
 from graph_io import *
 import timeit
+import collections
 
 
 def color_nbs(vertex):  # COLOR_NeighBourS
@@ -47,7 +48,6 @@ def colorpartition(graph_list, initial_coloring=False):
 
 
 def result(graph_list):
-    results = []
     checked = []
     print('Sets of possibly isomorphic graphs:')
     for i, graph1 in enumerate(graph_list):
@@ -58,68 +58,77 @@ def result(graph_list):
         this_set = [i]
         for j, graph2 in enumerate(graph_list[i + 1:]):
             if colors_in_graph(graph1) == colors_in_graph(graph2):
-                checked.append(graph2)
                 this_set += [i + j + 1]
+                if not discrete:
+                    graphs = [graph_list[this_set[0]], graph_list[this_set[-1]]]
+                    count = countIsomorphism(graphs, dict())
+
+                    if count != 0:
+                        print(str(this_set) + " " + str(count))
+                        checked.append(graph2)
+                    else:
+                        del this_set[-1]
+
+                    coloring([graph1, graph2], dict())
+                    iteration([graph1, graph2])
 
         if discrete:
-            if this_set not in results:
-                results.append(this_set)
-        else:
-            branches = dict()
-            color = get_color_group(colors_in_graph(graph_list[this_set[0]]))
-            branches[color] = []
-            for index in this_set:
-                v = get_vertex_w_color(color, graph_list[index])
-                branches[color].append(v)
-            branching(graph_list, this_set, branches, results)
-            print(results)
+            print(f'{this_set} 1')
+
     pass
 
 
-def branching(graph_list, this_set, branches, results):
-    discrete = False
-    while not discrete:
-        for graph in graph_list:
-            for v in graph.vertices:
-                v.colornum = 0
+def countIsomorphism(graphs, col):
+    iteration(graphs)
+    graph1, graph2 = graphs[0], graphs[1]
 
-        for c in branches:
-            for v in branches[c]:
-                v.colornum = c + 1
+    if not balanced(graph1, graph2):
+        return 0
+    if bijection(graph1, graph2):
+        return 1
 
-        iteration(graph_list)
+    color_class = get_color_class(colors_in_graph(graph1))
+    x = get_vertex_w_color(color_class, graph1)
+    num = 0
 
-        checked = []
-        for i, graph1 in enumerate(graph_list):
-            if graph1 in checked:
-                continue
-            discrete = (len(set(colors_in_graph(graph1))) == len(graph1))
+    vertices = [v for v in graph2.vertices if v.colornum == color_class]
 
-            this_set = [i]
-            for j, graph2 in enumerate(graph_list[i + 1:]):
-                if colors_in_graph(graph1) == colors_in_graph(graph2):
-                    checked.append(graph2)
-                    this_set += [i + j + 1]
+    for y in vertices:
+        col[color_class] = []
+        col[color_class].append(x)
+        col[color_class].append(y)
+        coloring(graphs, col)
+        num += countIsomorphism(graphs, col)
+        col[color_class] = []
 
-            if discrete:
-                if this_set not in results:
-                    results.append(this_set)
-            else:
-                color = get_color_group(colors_in_graph(graph_list[this_set[0]]))
-                branches[color] = []
-                for index in this_set:
-                    v = get_vertex_w_color(color, graph_list[index])
-                    branches[color].append(v)
-                branching(graph_list, this_set, branches, results)
+    return num
 
 
-def get_color_group(coloring):
-    duplicates = []
-    for color in coloring:
-        if color not in duplicates:
-            duplicates.append(color)
-        else:
-            return color
+def coloring(graphs, colors):
+    for graph in graphs:
+        for v in graph.vertices:
+            v.colornum = 0
+
+    for color in colors:
+        for v in colors[color]:
+            v.colornum = color
+
+def balanced(graph1, graph2):
+    return colors_in_graph(graph1) == colors_in_graph(graph2)
+
+
+def bijection(graph1, graph2):
+    return colors_in_graph(graph1) == colors_in_graph(graph2) and \
+           (len(set(colors_in_graph(graph1))) == len(graph1))
+
+
+def get_color_class(coloring):
+    count, best, num = collections.Counter(coloring), 0, 0
+    for x in count:
+        if count[x] > num:
+            best = x
+            num = count[x]
+    return best
 
 
 def get_vertex_w_color(color, graph):
@@ -153,7 +162,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/trees11.grl') as f:
+with open('testfiles/wheelstar12.grl') as f:
     L = load_graph(f, read_list=True)[0]
 t1 = timeit.default_timer()
 colorpartition(L)
