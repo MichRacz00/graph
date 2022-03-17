@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="fixed issue with wheeljoin14">
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="comments for readability">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,7 @@
       <workItem from="1646914494755" duration="5735000" />
       <workItem from="1646991228756" duration="4012000" />
       <workItem from="1647417724104" duration="21118000" />
-      <workItem from="1647513669363" duration="455000" />
+      <workItem from="1647513669363" duration="1185000" />
     </task>
     <task id="LOCAL-00001" summary="New branch and trying some stuff">
       <created>1646908444517</created>
@@ -179,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647439477076</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="comments for readability">
+      <created>1647514180861</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1647514180861</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,7 +218,8 @@
     <MESSAGE value="small fix &#10;so it does not show graphs that are not isomorphic to others as a set all by itself" />
     <MESSAGE value="trying to speed up code" />
     <MESSAGE value="fixed issue with wheeljoin14" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed issue with wheeljoin14" />
+    <MESSAGE value="comments for readability" />
+    <option name="LAST_COMMIT_MESSAGE" value="comments for readability" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -226,6 +233,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1647441109885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1647514146488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
