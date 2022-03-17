@@ -1,0 +1,53 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+new file mode 100644
+--- /dev/null	(date 1647521248745)
++++ b/main.py	(date 1647521248745)
+@@ -0,0 +1,16 @@
++# This is a sample Python script.
++
++# Press Shift+F10 to execute it or replace it with your code.
++# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
++
++
++def print_hi(name):
++    # Use a breakpoint in the code line below to debug your script.
++    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
++
++
++# Press the green button in the gutter to run the script.
++if __name__ == '__main__':
++    print_hi('PyCharm')
++
++# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+Index: color_partition_renske.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from graph_io import *\r\nimport timeit\r\n\r\ndef color_nbs(vertex):  # COLOR_NeighBourS\r\n    return sorted([v.colornum for v in vertex.neighbours])\r\n\r\ndef colors_in_graph(graph):  # Give all colors for a given graph\r\n    return sorted([v.colornum for v in graph])\r\n\r\ndef identifier(v):  # Identifier for a vertex: its own color followed by its neighbours colors, sorted\r\n    return tuple([v.colornum] + color_nbs(v))\r\n\r\ndef colorpartition(graph_list, initial_coloring=False):\r\n    all_vertices = []\r\n    for graph in graph_list:\r\n        all_vertices += graph.vertices\r\n\r\n    if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified\r\n        for vertex in all_vertices:\r\n            vertex.colornum = 0\r\n    else:   # Select a vertex for individualization refinment\r\n        graph_color_list = []\r\n        for g in graph_list:\r\n            graph_color_list.append(create_color_groups(g.vertices))\r\n        for g in graph_color_list:\r\n            g[min(g.keys())][0].colornum = max(g.keys()) + 1\r\n\r\n\r\n\r\n    patterns = {}\r\n\r\n    while True:  # Color refinement algorithm\r\n        highest_color = 0\r\n        new_patterns = {}\r\n        for vertex in all_vertices:  # Check each vertex once every iteration\r\n            neighbourhood = identifier(vertex)\r\n            if neighbourhood in new_patterns:\r\n                vertex.newcolor = new_patterns[neighbourhood]\r\n            else:\r\n                highest_color += 1\r\n                new_patterns[neighbourhood] = highest_color\r\n                vertex.newcolor = highest_color\r\n        if patterns == new_patterns:\r\n            break\r\n        patterns = new_patterns\r\n        for v in all_vertices:\r\n            v.colornum = v.newcolor\r\n\r\n    result(graph_list)\r\n    pass\r\n\r\ndef result(graph_list):\r\n    checked = []\r\n    print('Sets of possibly isomorphic graphs:')\r\n    for i, graph1 in enumerate(graph_list):\r\n        if graph1 in checked:\r\n            continue\r\n        discrete = (len(set(colors_in_graph(graph1))) == len(graph1))\r\n\r\n        this_set = [i]\r\n        for j, graph2 in enumerate(graph_list[i + 1:]):\r\n            if colors_in_graph(graph1) == colors_in_graph(graph2):\r\n                checked.append(graph2)\r\n                this_set += [i + j + 1]\r\n\r\n        if discrete:\r\n            print(f'{this_set} discrete')\r\n        else:\r\n            graph_next_iteration = []\r\n            for i in this_set:\r\n                graph_next_iteration.append(graph_list[i])\r\n            colorpartition(graph_next_iteration, True)\r\n            print(this_set)\r\n    pass\r\n\r\n\r\ndef create_color_groups(vertices):\r\n    color_groups = {}\r\n    for v in vertices:\r\n        vertex_color = v.colornum\r\n        if vertex_color in color_groups.keys():\r\n            color_groups[vertex_color].append(v)\r\n        else:\r\n            color_groups[vertex_color] = [v]\r\n\r\n    return color_groups\r\n\r\n\r\nwith open('testfiles/SignOffColRefFri1.grl') as f:\r\n    L = load_graph(f, read_list=True)[0]\r\nt1 = timeit.default_timer()\r\ncolorpartition(L)\r\nt2 = timeit.default_timer()\r\nprint(t2-t1)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/color_partition_renske.py b/color_partition_renske.py
+--- a/color_partition_renske.py	(revision ba9f2bf730753ce72645a215b1b1358aaed719a8)
++++ b/color_partition_renske.py	(date 1647521248765)
+@@ -70,7 +70,7 @@
+             for i in this_set:
+                 graph_next_iteration.append(graph_list[i])
+             colorpartition(graph_next_iteration, True)
+-            print(this_set)
++            # print(this_set)
+     pass
+ 
+ 
+@@ -88,6 +88,7 @@
+ 
+ with open('testfiles/SignOffColRefFri1.grl') as f:
+     L = load_graph(f, read_list=True)[0]
++print(L)
+ t1 = timeit.default_timer()
+ colorpartition(L)
+ t2 = timeit.default_timer()

@@ -1,0 +1,110 @@
+Index: graph.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"\r\nThis is a module for working with directed and undirected multigraphs.\r\n\"\"\"\r\n# version: 29-01-2015, Paul Bonsma\r\n# version: 01-02-2017, Pieter Bos, Tariq Bontekoe\r\n\r\nfrom typing import List, Union, Set\r\n\r\n\r\nclass GraphError(Exception):\r\n    \"\"\"\r\n    An error that occurs while manipulating a `Graph`\r\n    \"\"\"\r\n\r\n    def __init__(self, message: str):\r\n        \"\"\"\r\n        Constructor\r\n        :param message: The error message\r\n        :type message: str\r\n        \"\"\"\r\n        super(GraphError, self).__init__(message)\r\n\r\n\r\nclass Vertex(object):\r\n    \"\"\"\r\n    `Vertex` objects have a property `graph` pointing to the graph they are part of,\r\n    and an attribute `label` which can be anything: it is not used for any methods,\r\n    except for `__str__`.\r\n    \"\"\"\r\n\r\n    def __init__(self, graph: \"Graph\", label=None):\r\n        \"\"\"\r\n        Creates a vertex, part of `graph`, with optional label `label`.\r\n        (Labels of different vertices may be chosen the same; this does\r\n        not influence correctness of the methods, but will make the string\r\n        representation of the graph ambiguous.)\r\n        :param graph: The graph that this `Vertex` is a part of\r\n        :param label: Optional parameter to specify a label for the\r\n        \"\"\"\r\n        if label is None:\r\n            label = graph._next_label()\r\n\r\n        self._graph = graph\r\n        self.label = label\r\n        self._incidence = {}\r\n\r\n    def __repr__(self):\r\n        \"\"\"\r\n        A programmer-friendly representation of the vertex.\r\n        :return: The string to approximate the constructor arguments of the `Vertex'\r\n        \"\"\"\r\n        return 'Vertex(label={}, #incident={})'.format(self.label, len(self._incidence))\r\n\r\n    def __str__(self) -> str:\r\n        \"\"\"\r\n        A user-friendly representation of the vertex, that is, its label.\r\n        :return: The string representation of the label.\r\n        \"\"\"\r\n        return str(self.label)\r\n\r\n    def is_adjacent(self, other: \"Vertex\") -> bool:\r\n        \"\"\"\r\n        Returns True iff `self` is adjacent to `other` vertex.\r\n        :param other: The other vertex\r\n        \"\"\"\r\n        return other in self._incidence\r\n\r\n    def _add_incidence(self, edge: \"Edge\"):\r\n        \"\"\"\r\n        For internal use only; adds an edge to the incidence map\r\n        :param edge: The edge that is used to add the incidence\r\n        \"\"\"\r\n        other = edge.other_end(self)\r\n\r\n        if other not in self._incidence:\r\n            self._incidence[other] = set()\r\n\r\n        self._incidence[other].add(edge)\r\n\r\n    @property\r\n    def graph(self) -> \"Graph\":\r\n        \"\"\"\r\n        The graph of this vertex\r\n        :return: The graph of this vertex\r\n        \"\"\"\r\n        return self._graph\r\n\r\n    @property\r\n    def incidence(self) -> List[\"Edge\"]:\r\n        \"\"\"\r\n        Returns the list of edges incident with the vertex.\r\n        :return: The list of edges incident with the vertex\r\n        \"\"\"\r\n        result = set()\r\n\r\n        for edge_set in self._incidence.values():\r\n            result |= edge_set\r\n\r\n        return list(result)\r\n\r\n    @property\r\n    def neighbours(self) -> List[\"Vertex\"]:\r\n        \"\"\"\r\n        Returns the list of neighbors of the vertex.\r\n        \"\"\"\r\n        return list(self._incidence.keys())\r\n\r\n    @property\r\n    def degree(self) -> int:\r\n        \"\"\"\r\n        Returns the degree of the vertex\r\n        \"\"\"\r\n        return sum(map(len, self._incidence.values()))\r\n\r\n\r\nclass Edge(object):\r\n    \"\"\"\r\n    Edges have properties `tail` and `head` which point to the end vertices\r\n    (`Vertex` objects). The order of these matters when the graph is directed.\r\n    \"\"\"\r\n\r\n    def __init__(self, tail: Vertex, head: Vertex, weight=None):\r\n        \"\"\"\r\n        Creates an edge between vertices `tail` and `head`\r\n        :param tail: In case the graph is directed, this is the tail of the arrow.\r\n        :param head: In case the graph is directed, this is the head of the arrow.\r\n        :param weight: Optional weight of the vertex, which can be any type, but usually is a number.\r\n        \"\"\"\r\n        if tail.graph != head.graph:\r\n            raise GraphError(\"Can only add edges between vertices of the same graph\")\r\n\r\n        self._tail = tail\r\n        self._head = head\r\n        self._weight = weight\r\n\r\n    def __repr__(self):\r\n        \"\"\"\r\n        A programmer-friendly representation of the edge.\r\n        :return: The string to approximate the constructor arguments of the `Edge'\r\n        \"\"\"\r\n        return 'Edge(head={}, tail={}, weight={})'.format(self.head.label, self.tail.label, self.weight)\r\n\r\n    def __str__(self) -> str:\r\n        \"\"\"\r\n        A user friendly representation of this edge\r\n        :return: A user friendly representation of this edge\r\n        \"\"\"\r\n        return '({}, {})'.format(str(self.tail), str(self.head))\r\n\r\n    @property\r\n    def tail(self) -> \"Vertex\":\r\n        \"\"\"\r\n        In case the graph is directed, this represents the tail of the arrow.\r\n        :return: The tail of this edge\r\n        \"\"\"\r\n        return self._tail\r\n\r\n    @property\r\n    def head(self) -> \"Vertex\":\r\n        \"\"\"\r\n        In case the graph is directed, this represents the head of the arrow.\r\n        :return: The head of this edge\r\n        \"\"\"\r\n        return self._head\r\n\r\n    @property\r\n    def weight(self):\r\n        \"\"\"\r\n        The weight of this edge, which can also just be used as a generic label.\r\n        :return: The weight of this edge\r\n        \"\"\"\r\n        return self._weight\r\n\r\n    def other_end(self, vertex: Vertex) -> Vertex:\r\n        \"\"\"\r\n        Given one end `vertex` of the edge, this returns\r\n        the other end vertex.\r\n        :param vertex: One end\r\n        :return: The other end\r\n        \"\"\"\r\n        if self.tail == vertex:\r\n            return self.head\r\n        elif self.head == vertex:\r\n            return self.tail\r\n\r\n        raise GraphError(\r\n            'edge.other_end(vertex): vertex must be head or tail of edge')\r\n\r\n    def incident(self, vertex: Vertex) -> bool:\r\n        \"\"\"\r\n        Returns True iff the edge is incident with the\r\n        vertex.\r\n        :param vertex: The vertex\r\n        :return: Whether the vertex is incident with the edge.\r\n        \"\"\"\r\n        return self.head == vertex or self.tail == vertex\r\n\r\n\r\nclass Graph(object):\r\n    def __init__(self, directed: bool, n: int=0, simple: bool=False):\r\n        \"\"\"\r\n        Creates a graph.\r\n        :param directed: Whether the graph should behave as a directed graph.\r\n        :param simple: Whether the graph should be a simple graph, that is, not have multi-edges or loops.\r\n        :param n: Optional, the number of vertices the graph should create immediately\r\n        \"\"\"\r\n        self._v = list()\r\n        self._e = list()\r\n        self._simple = simple\r\n        self._directed = directed\r\n        self._next_label_value = 0\r\n\r\n        for i in range(n):\r\n            self.add_vertex(Vertex(self))\r\n\r\n    def __repr__(self):\r\n        \"\"\"\r\n        A programmer-friendly representation of the Graph.\r\n        :return: The string to approximate the constructor arguments of the `Graph'\r\n        \"\"\"\r\n        return 'Graph(directed={}, simple={}, #edges={n_edges}, #vertices={n_vertices})'.format(\r\n            self._directed, self._simple, n_edges=len(self._e), n_vertices=len(self._v))\r\n\r\n    def __str__(self) -> str:\r\n        \"\"\"\r\n        A user-friendly representation of this graph\r\n        :return: A textual representation of the vertices and edges of this graph\r\n        \"\"\"\r\n        return 'V=[' + \", \".join(map(str, self._v)) + ']\\nE=[' + \", \".join(map(str, self._e)) + ']'\r\n\r\n    def _next_label(self) -> int:\r\n        \"\"\"\r\n        Generates unique labels for vertices within the graph\r\n        :return: A unique label\r\n        \"\"\"\r\n        result = self._next_label_value\r\n        self._next_label_value += 1\r\n        return result\r\n\r\n    @property\r\n    def simple(self) -> bool:\r\n        \"\"\"\r\n        Whether the graph is a simple graph, that is, it does not have multi-edges or loops.\r\n        :return: Whether the graph is simple\r\n        \"\"\"\r\n        return self._simple\r\n\r\n    @property\r\n    def directed(self) -> bool:\r\n        \"\"\"\r\n        Whether the graph behaves as a directed graph\r\n        :return: Whether the graph is directed\r\n        \"\"\"\r\n        return self._directed\r\n\r\n    @property\r\n    def vertices(self) -> List[\"Vertex\"]:\r\n        \"\"\"\r\n        :return: The `set` of vertices of the graph\r\n        \"\"\"\r\n        return list(self._v)\r\n\r\n    @property\r\n    def edges(self) -> List[\"Edge\"]:\r\n        \"\"\"\r\n        :return: The `set` of edges of the graph\r\n        \"\"\"\r\n        return list(self._e)\r\n\r\n    def __iter__(self):\r\n        \"\"\"\r\n        :return: Returns an iterator for the vertices of the graph\r\n        \"\"\"\r\n        return iter(self._v)\r\n\r\n    def __len__(self) -> int:\r\n        \"\"\"\r\n        :return: The number of vertices of the graph\r\n        \"\"\"\r\n        return len(self._v)\r\n\r\n    def add_vertex(self, vertex: \"Vertex\"):\r\n        \"\"\"\r\n        Add a vertex to the graph.\r\n        :param vertex: The vertex to be added.\r\n        \"\"\"\r\n        if vertex.graph != self:\r\n            raise GraphError(\"A vertex must belong to the graph it is added to\")\r\n\r\n        self._v.append(vertex)\r\n\r\n    def add_edge(self, edge: \"Edge\"):\r\n        \"\"\"\r\n        Add an edge to the graph. And if necessary also the vertices.\r\n        Includes some checks in case the graph should stay simple.\r\n        :param edge: The edge to be added\r\n        \"\"\"\r\n\r\n        if self._simple:\r\n            if edge.tail == edge.head:\r\n                raise GraphError('No loops allowed in simple graphs')\r\n\r\n            if self.is_adjacent(edge.tail, edge.head):\r\n                raise GraphError('No multiedges allowed in simple graphs')\r\n\r\n        if edge.tail not in self._v:\r\n            self.add_vertex(edge.tail)\r\n        if edge.head not in self._v:\r\n            self.add_vertex(edge.head)\r\n\r\n        self._e.append(edge)\r\n\r\n        edge.head._add_incidence(edge)\r\n        edge.tail._add_incidence(edge)\r\n\r\n    def __add__(self, other: \"Graph\") -> \"Graph\":\r\n        \"\"\"\r\n        Make a disjoint union of two graphs.\r\n        :param other: Graph to add to `self'.\r\n        :return: New graph which is a disjoint union of `self' and `other'.\r\n        \"\"\"\r\n        n = len(self)+len(other)\r\n        G = Graph(self.directed, n)\r\n        all_vertices = self.vertices + other.vertices\r\n        vertex_map = {all_vertices[i]:G.vertices[i] for i in range(n)}\r\n        for edge in self.edges+other.edges:\r\n            G += Edge(vertex_map[edge.tail], vertex_map[edge.head])\r\n        return G\r\n\r\n\r\n    def __iadd__(self, other: Union[Edge, Vertex]) -> \"Graph\":\r\n        \"\"\"\r\n        Add either an `Edge` or `Vertex` with the += syntax.\r\n        :param other: The object to be added\r\n        :return: The modified graph\r\n        \"\"\"\r\n        if isinstance(other, Vertex):\r\n            self.add_vertex(other)\r\n\r\n        if isinstance(other, Edge):\r\n            self.add_edge(other)\r\n\r\n        return self\r\n\r\n    def find_edge(self, u: \"Vertex\", v: \"Vertex\") -> Set[\"Edge\"]:\r\n        \"\"\"\r\n        Tries to find edges between two vertices.\r\n        :param u: One vertex\r\n        :param v: The other vertex\r\n        :return: The set of edges incident with both `u` and `v`\r\n        \"\"\"\r\n        result = u._incidence.get(v, set())\r\n\r\n        if not self._directed:\r\n            result |= v._incidence.get(u, set())\r\n\r\n        return set(result)\r\n\r\n    def is_adjacent(self, u: \"Vertex\", v: \"Vertex\") -> bool:\r\n        \"\"\"\r\n        Returns True iff vertices `u` and `v` are adjacent. If the graph is directed, the direction of the edges is\r\n        respected.\r\n        :param u: One vertex\r\n        :param v: The other vertex\r\n        :return: Whether the vertices are adjacent\r\n        \"\"\"\r\n        return v in u.neighbours and (not self.directed or any(e.head == v for e in u.incidence))\r\n\r\n\r\nclass UnsafeGraph(Graph):\r\n    @property\r\n    def vertices(self) -> List[\"Vertex\"]:\r\n        return self._v\r\n\r\n    @property\r\n    def edges(self) -> List[\"Edge\"]:\r\n        return self._e\r\n\r\n    def add_vertex(self, vertex: \"Vertex\"):\r\n        self._v.append(vertex)\r\n\r\n    def add_edge(self, edge: \"Edge\"):\r\n        self._e.append(edge)\r\n\r\n        edge.head._add_incidence(edge)\r\n        edge.tail._add_incidence(edge)\r\n\r\n    def find_edge(self, u: \"Vertex\", v: \"Vertex\") -> Set[\"Edge\"]:\r\n        left = u._incidence.get(v, None)\r\n        right = None\r\n\r\n        if not self._directed:\r\n            right = v._incidence.get(u, None)\r\n\r\n        if left is None and right is None:\r\n            return set()\r\n\r\n        if left is None:\r\n            return right\r\n\r\n        if right is None:\r\n            return left\r\n\r\n        return left | right\r\n\r\n    def is_adjacent(self, u: \"Vertex\", v: \"Vertex\") -> bool:\r\n        return v in u._incidence or (not self._directed and u in v._incidence)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/graph.py b/graph.py
+--- a/graph.py	(revision 0a1cafc058f0ab9ad9e241083352a7af7cea21f4)
++++ b/graph.py	(date 1646833111408)
+@@ -401,7 +401,7 @@
+         if right is None:
+             return left
+ 
+-        return left | right
++        return left or right
+ 
+     def is_adjacent(self, u: "Vertex", v: "Vertex") -> bool:
+         return v in u._incidence or (not self._directed and u in v._incidence)
+Index: Example_graphs_slides.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Example_graphs_slides.txt b/Example_graphs_slides.txt
+new file mode 100644
+--- /dev/null	(date 1646834409971)
++++ b/Example_graphs_slides.txt	(date 1646834409971)
+@@ -0,0 +1,33 @@
++# Graph 0:
++# Number of vertices:
++8
++# Edge list:
++0,1
++0,2
++0,5
++1,4
++1,7
++2,3
++2,5
++3,4
++3,6
++4,7
++5,6
++6,7
++--- Next graph:
++# Graph 1:
++# Number of vertices:
++8
++# Edge list:
++0,1
++0,6
++0,7
++1,2
++1,3
++2,3
++2,4
++3,5
++4,5
++4,6
++5,7
++6,7
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+new file mode 100644
+--- /dev/null	(date 1646834651129)
++++ b/main.py	(date 1646834651129)
+@@ -0,0 +1,9 @@
++from graph_io import *
++from graph import *
++
++with open('Example_graphs_slides.txt') as f:
++    L = load_graph(f, read_list=True)[0]
++
++G = L[0] + L[1]
++with open('Test.dot', 'w') as f:
++    write_dot(G, f)
+\ No newline at end of file
+Index: color_partition_renske.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from graph_io import *\r\nimport timeit\r\n\r\ndef color_nbs(vertex):  # COLOR_NeighBourS\r\n    return sorted([v.colornum for v in vertex.neighbours])\r\n\r\ndef colors_in_graph(graph):  # Give all colors for a given graph\r\n    return sorted([v.colornum for v in graph])\r\n\r\ndef identifier(v):  # Identifier for a vertex: its own color followed by its neighbours colors, sorted\r\n    return tuple([v.colornum] + color_nbs(v))\r\n\r\ndef colorpartition(graph_list, initial_coloring=False):\r\n    all_vertices = []\r\n    for graph in graph_list:\r\n        all_vertices += graph.vertices\r\n\r\n    if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified\r\n        for vertex in all_vertices:\r\n            vertex.colornum = 0\r\n\r\n    patterns = {}\r\n\r\n    while True:  # Color refinement algorithm\r\n        highest_color = 0\r\n        new_patterns = {}\r\n        for vertex in all_vertices:  # Check each vertex once every iteration\r\n            neighbourhood = identifier(vertex)\r\n            if neighbourhood in new_patterns:\r\n                vertex.newcolor = new_patterns[neighbourhood]\r\n            else:\r\n                highest_color += 1\r\n                new_patterns[neighbourhood] = highest_color\r\n                vertex.newcolor = highest_color\r\n        if patterns == new_patterns:\r\n            break\r\n        patterns = new_patterns\r\n        for v in all_vertices:\r\n            v.colornum = v.newcolor\r\n\r\n    result(graph_list)\r\n    pass\r\n\r\ndef result(graph_list):\r\n    checked = []\r\n    print('Sets of possibly isomorphic graphs:')\r\n    for i, graph1 in enumerate(graph_list):\r\n        if graph1 in checked:\r\n            continue\r\n        discrete = (len(set(colors_in_graph(graph1))) == len(graph1))\r\n\r\n        this_set = [i]\r\n        for j, graph2 in enumerate(graph_list[i + 1:]):\r\n            if colors_in_graph(graph1) == colors_in_graph(graph2):\r\n                checked.append(graph2)\r\n                this_set += [i + j + 1]\r\n\r\n        if discrete:\r\n            print(f'{this_set} discrete')\r\n        else:\r\n            print(this_set)\r\n    pass\r\n\r\n\r\nwith open('SignOffColRefThu6.grl') as f:\r\n    L = load_graph(f, read_list=True)[0]\r\nt1 = timeit.default_timer()\r\ncolorpartition(L)\r\nt2 = timeit.default_timer()\r\nprint(t2-t1)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/color_partition_renske.py b/color_partition_renske.py
+--- a/color_partition_renske.py	(revision 0a1cafc058f0ab9ad9e241083352a7af7cea21f4)
++++ b/color_partition_renske.py	(date 1646834210137)
+@@ -17,7 +17,7 @@
+ 
+     if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified
+         for vertex in all_vertices:
+-            vertex.colornum = 0
++            vertex.colornum = vertex.degree
+ 
+     patterns = {}
+ 
+@@ -58,6 +58,8 @@
+         if discrete:
+             print(f'{this_set} discrete')
+         else:
++            # Branching
++
+             print(this_set)
+     pass
+ 
