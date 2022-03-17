@@ -31,7 +31,6 @@ def colorpartition(graph_list, initial_coloring=False):
 
 def result(graph_list):
     checked = []
-    print('Sets of possibly isomorphic graphs:')
     for i, graph1 in enumerate(graph_list):
         if graph1 in checked:
             continue
@@ -39,24 +38,25 @@ def result(graph_list):
         this_set = [i]
         for j, graph2 in enumerate(graph_list[i + 1:]):
             if colors_in_graph(graph1) == colors_in_graph(graph2):  # check if balanced
-                this_set += [i + j + 1]
                 if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete
                     print(f'{this_set} 1')
                 if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete
-                    graphs = [graph_list[this_set[0]], graph_list[this_set[-1]]]
-                    count = countIsomorphism(graphs, {})  # enter branching algorithm
+                    graphs = [graph1, graph2]
+                    isomorphic = isomorphism(graphs, {})  # enter branching algorithm
 
-                    if count != 0:  # a isomorphism is found
-                        print(str(this_set) + " " + str(count))
-                        checked.append(graph2)
-                    else:  # no isomorphism found
-                        del this_set[-1]
-
-                    for graph in graph_list:  # initial coloring
+                    for graph in graph_list:
                         for v in graph.vertices:
                             v.colornum = 0
 
                     iteration(graph_list)  # give graphs their original stable coloring again
+
+                    if isomorphic:  # an isomorphism is found
+                        this_set += [i + j + 1]
+                        checked.append(graph2)
+
+        automorphisms = countIsomorphism([graph_list[this_set[0]], graph_list[this_set[-1]]], {})
+        print(f'{this_set} {automorphisms}')
+
 
     pass
 
@@ -77,10 +77,9 @@ def countIsomorphism(graphs, col):
     num = 0
 
     vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
-
+    col[color_class] = []
     for y in vertices:
         # give new initial coloring
-        col[color_class] = []
         col[color_class].append(x)
         col[color_class].append(y)
 
@@ -97,6 +96,41 @@ def countIsomorphism(graphs, col):
 
     return num
 
+
+def isomorphism(graphs, col):
+    iteration(graphs)
+    graph1, graph2 = graphs[0], graphs[1]
+
+    if colors_in_graph(graph1) != colors_in_graph(graph2):  # if not balanced
+        return False
+    if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
+        return True
+
+    graph_color = colors_in_graph(graph1)  # get current coloring
+    color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
+    x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
+
+    vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
+    col[color_class] = [x]
+
+    for y in vertices:
+        # give new initial coloring
+        col[color_class].append(y)
+
+        for graph in graphs:
+            for v in graph.vertices:
+                v.colornum = 0  # not chosen vertices are given 0
+
+        for color in col:
+            for v in col[color]:
+                v.colornum = color  # chosen vertex x and y get new color
+
+        if countIsomorphism(graphs, col):
+            return True # continue until bijection or not balanced
+
+        col[color_class] = [x]  # clear list with special vertices for new choice
+
+    return False
 
 def iteration(graph_list):
     all_vertices = []
@@ -123,7 +157,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/cubes3.grl') as f:
+with open('testfiles/cubes5.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
