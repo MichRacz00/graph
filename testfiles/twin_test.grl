@@ -1,0 +1,15 @@
+# Number of vertices:
+4
+# Edge list:
+0,2
+1,2
+0,1
+3,2
+3,0
+--- Next graph:
+# Number of vertices:
+4
+# Edge list:
+0,1
+1,2
+2,0
