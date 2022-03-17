@@ -70,7 +70,7 @@ def countIsomorphism(graphs, col):
     if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
         return 1
 
-    graph_color = colors_in_graph(graph1) # get current coloring
+    graph_color = colors_in_graph(graph1)  # get current coloring
     color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
     x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
 
@@ -123,7 +123,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/cubes3.grl') as f:
+with open('testfiles/modulesD.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
