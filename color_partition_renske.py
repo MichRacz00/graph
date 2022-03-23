@@ -1,5 +1,7 @@
 from graph_io import *
+from perm import *
 import timeit
+
 
 
 def color_nbs(vertex):  # COLOR_NeighBourS
@@ -27,6 +29,22 @@ def colorpartition(graph_list, initial_coloring=False):
     result(graph_list)
 
     pass
+
+
+def createPermutation(graphA, graphB):
+    permutations = []
+
+    for vertexA in graphA.vertices:
+        for vertexB in graphB.vertices:
+            if vertexA.colornum == vertexB.colornum:
+                permutations.append([vertexA.label, vertexB.label])
+
+
+    p = [None] * len(permutations)
+    for i in range(len(permutations)):
+        p[permutations[i][0]] = permutations[i][1]
+
+    return p
 
 
 def result(graph_list):
@@ -68,6 +86,15 @@ def countIsomorphism(graphs, col):
     if colors_in_graph(graph1) != colors_in_graph(graph2):  # if not balanced
         return 0
     if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
+        p = createPermutation(graph1, graph2)
+        print_permutation(p)
+
+        #with open('output/additional1.dot', 'w') as f:
+        #    write_dot(graph1, f)
+
+        #with open('output/additional2.dot', 'w') as f:
+        #    write_dot(graph2, f)
+
         return 1
 
     graph_color = colors_in_graph(graph1)  # get current coloring
@@ -123,7 +150,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/modulesD.grl') as f:
+with open('testfiles/Trees11.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
