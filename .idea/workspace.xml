@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="implemented multiple isomorphic graphs">
-      <change afterPath="$PROJECT_DIR$/automorphisms_practice.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/basicpermutationgroup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/color_partition_change.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/permv2.py" afterDir="false" />
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="written order method and some other changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647526297794</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="written order method and some other changes">
+      <created>1648643995580</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1648643995581</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,19 +289,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="optimizing_r" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -311,12 +301,17 @@
             <list>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="origin/optimizing_r" />
+                  <option value="origin/main" />
                 </option>
               </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="origin/main" />
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/optimizing_r" />
                 </option>
               </RecentGroup>
             </list>
@@ -344,7 +339,8 @@
     <MESSAGE value="comments for readability" />
     <MESSAGE value="new branch" />
     <MESSAGE value="implemented multiple isomorphic graphs" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented multiple isomorphic graphs" />
+    <MESSAGE value="written order method and some other changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="written order method and some other changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

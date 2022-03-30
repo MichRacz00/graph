@@ -58,7 +58,8 @@ def result(graph_list):
         for j, graph2 in enumerate(graph_list[i + 1:]):
             if colors_in_graph(graph1) == colors_in_graph(graph2):  # check if balanced
                 if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete
-                    print(f'{this_set} 1')
+                    this_set += [i + j + 1]
+                    checked.append(graph2)
                 if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete
                     graphs = [graph1, graph2]
                     isomorphic = isomorphism(graphs, {})  # enter branching algorithm
@@ -73,14 +74,15 @@ def result(graph_list):
                         this_set += [i + j + 1]
                         checked.append(graph2)
 
-        #automorphisms = countIsomorphism([graph_list[this_set[0]], graph_list[this_set[-1]]], {})
-        print(f'{this_set}')# {automorphisms}')
+        automorphisms = automorphism([graph_list[this_set[0]], graph_list[this_set[0].copy()]], {})
+
+        print(f'{this_set} {automorphisms}')
 
 
     pass
 
 
-def countIsomorphism(graphs, col):
+def automorphism(graphs, col):
     iteration(graphs)
     graph1, graph2 = graphs[0], graphs[1]
 
@@ -144,7 +146,7 @@ def isomorphism(graphs, col):
             for v in col[color]:
                 v.colornum = color  # chosen vertex x and y get new color
 
-        if countIsomorphism(graphs, col):
+        if isomorphism(graphs, col):
             return True # continue until bijection or not balanced
 
         col[color_class] = [x]  # clear list with special vertices for new choice
