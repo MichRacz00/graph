@@ -1,8 +1,9 @@
 from graph_io import *
-from perm import *
+from permv2 import *
+from basicpermutationgroup import *
 import timeit
 
-
+permutations = []
 
 def color_nbs(vertex):  # COLOR_NeighBourS
     return sorted([v.colornum for v in vertex.neighbours])
@@ -48,6 +49,7 @@ def createPermutation(graphA, graphB):
 
 def result(graph_list):
     checked = []
+    global permutations
     print('Sets of possibly isomorphic graphs:')
     for i, graph1 in enumerate(graph_list):
         if graph1 in checked:
@@ -58,10 +60,17 @@ def result(graph_list):
             if colors_in_graph(graph1) == colors_in_graph(graph2):  # check if balanced
                 this_set += [i + j + 1]
                 if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete
-                    print(f'{this_set} 1')
+                    # print(f'{this_set} 1')
+                    count = 1
                 if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete
                     graphs = [graph_list[this_set[0]], graph_list[this_set[-1]]]
-                    count = countIsomorphism(graphs, {})  # enter branching algorithm
+                    countIsomorphism(graphs, {})  # enter branching algorithm
+
+                    perm_objects = []
+                    for p in permutations:
+                        perm_objects.append(permutation(len(p), mapping=p))
+                    count = order(perm_objects)
+                    permutations = []
 
                     if count != 0:  # a isomorphism is found
                         print(str(this_set) + " " + str(count))
@@ -78,9 +87,15 @@ def result(graph_list):
     pass
 
 
+perm_objects = []
+for p in permutations:
+    perm_objects.append(permutation(len(p), mapping=p))
+count = order(perm_objects)
 permutations = []
 
+
 def countIsomorphism(graphs, col, explore=True):
+    global permutations
     iteration(graphs)
     graph1, graph2 = graphs[0], graphs[1]
 
@@ -88,7 +103,6 @@ def countIsomorphism(graphs, col, explore=True):
         return 0
     if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
         p = createPermutation(graph1, graph2)
-        print_permutation(p)
         permutations.append(p)
 
         with open('output/additional1.dot', 'w') as f:
@@ -106,8 +120,6 @@ def countIsomorphism(graphs, col, explore=True):
     num = 0
 
     vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
-
-    print('x =', x)
 
     for i, y in enumerate(vertices):
         # give new initial coloring
@@ -161,7 +173,19 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/mygraph.grl') as f:
+def order(H):
+    if len(H)==1:
+        return len(H[0].cycles()[0])
+    alpha = 0
+    orbit = Orbit(H, alpha)
+    while orbit == [alpha]:
+        alpha += 1
+        orbit = Orbit(H, alpha)
+    return len(orbit)*order(Stabilizer(H, alpha))
+
+
+
+with open('testfiles/Trees11.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
