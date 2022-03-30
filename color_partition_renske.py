@@ -104,13 +104,6 @@ def countIsomorphism(graphs, col, explore=True):
     if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
         p = createPermutation(graph1, graph2)
         permutations.append(p)
-
-        with open('output/additional1.dot', 'w') as f:
-            write_dot(graph1, f)
-
-        with open('output/additional2.dot', 'w') as f:
-            write_dot(graph2, f)
-
         return 1
 
     graph_color = colors_in_graph(graph1)  # get current coloring
