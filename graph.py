@@ -327,6 +327,17 @@ class Graph(object):
             G += Edge(vertex_map[edge.tail], vertex_map[edge.head])
         return G
 
+    def copy(self):
+        n = len(self)
+        G = graph(n)
+        vertex_map = {self.vertices[i]:G.vertices[i] for i in range(n)}
+        for edge in self.edges:
+            G += Edge(vertex_map[edge.tail], vertex_map[edge.head])
+        for vertex in self.vertices:
+            vertex_map[vertex].label = vertex.label
+
+        return G
+
 
     def __iadd__(self, other: Union[Edge, Vertex]) -> "Graph":
         """

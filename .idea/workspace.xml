@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Separated isomorphism checking and automorphism counting again">
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Updated isomorphism function">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/graph.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +293,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648645310592</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Updated isomorphism function">
+      <created>1648645564599</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1648645564599</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -355,7 +364,8 @@
     <MESSAGE value="written order method and some other changes" />
     <MESSAGE value="Separated isomorphism checking and automorphism counting" />
     <MESSAGE value="Separated isomorphism checking and automorphism counting again" />
-    <option name="LAST_COMMIT_MESSAGE" value="Separated isomorphism checking and automorphism counting again" />
+    <MESSAGE value="Updated isomorphism function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated isomorphism function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
