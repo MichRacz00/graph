@@ -1,0 +1,27 @@
+# Number of vertices:
+7
+# Edge list:
+1,0
+1,3
+3,0
+3,2
+2,0
+0,4
+0,6
+0,5
+4,6
+6,5
+--- Next graph:
+# Number of vertices:
+7
+# Edge list:
+1,0
+1,3
+3,0
+3,2
+2,0
+0,4
+0,6
+0,5
+4,6
+6,5

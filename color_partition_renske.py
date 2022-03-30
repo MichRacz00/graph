@@ -39,7 +39,6 @@ def createPermutation(graphA, graphB):
             if vertexA.colornum == vertexB.colornum:
                 permutations.append([vertexA.label, vertexB.label])
 
-
     p = [None] * len(permutations)
     for i in range(len(permutations)):
         p[permutations[i][0]] = permutations[i][1]
@@ -79,7 +78,9 @@ def result(graph_list):
     pass
 
 
-def countIsomorphism(graphs, col):
+permutations = []
+
+def countIsomorphism(graphs, col, explore=True):
     iteration(graphs)
     graph1, graph2 = graphs[0], graphs[1]
 
@@ -88,12 +89,13 @@ def countIsomorphism(graphs, col):
     if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
         p = createPermutation(graph1, graph2)
         print_permutation(p)
+        permutations.append(p)
 
-        #with open('output/additional1.dot', 'w') as f:
-        #    write_dot(graph1, f)
+        with open('output/additional1.dot', 'w') as f:
+            write_dot(graph1, f)
 
-        #with open('output/additional2.dot', 'w') as f:
-        #    write_dot(graph2, f)
+        with open('output/additional2.dot', 'w') as f:
+            write_dot(graph2, f)
 
         return 1
 
@@ -105,7 +107,9 @@ def countIsomorphism(graphs, col):
 
     vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
 
-    for y in vertices:
+    print('x =', x)
+
+    for i, y in enumerate(vertices):
         # give new initial coloring
         col[color_class] = []
         col[color_class].append(x)
@@ -119,7 +123,14 @@ def countIsomorphism(graphs, col):
             for v in col[color]:
                 v.colornum = color  # chosen vertex x and y get new color
 
-        num += countIsomorphism(graphs, col)  # continue until bijection or not balanced
+        # TODO: clean this section
+
+        num += countIsomorphism(graphs, col, explore)  # continue until bijection or not balanced
+        if not explore and i == 0:
+            col[color_class] = []
+            return 0
+
+        explore = False
         col[color_class] = []  # clear list with special vertices for new choice
 
     return num
@@ -150,7 +161,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/Trees11.grl') as f:
+with open('testfiles/mygraph.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
