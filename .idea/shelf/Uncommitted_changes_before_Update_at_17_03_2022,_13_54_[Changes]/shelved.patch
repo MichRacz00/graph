@@ -1,0 +1,75 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"b830ca7b-a07f-41ed-a9e8-bb2a8799362a\" name=\"Changes\" comment=\"fixed issue with wheeljoin14\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/color_partition_renske.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/color_partition_renske.py\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectId\" id=\"26BahJmA485gn9BV2QMGAY6Au99\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/testfiles\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/testfiles\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"color_partition_renske\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"/usr/local/bin/python3.8\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <module name=\"\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/color_partition_renske.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"b830ca7b-a07f-41ed-a9e8-bb2a8799362a\" name=\"Changes\" comment=\"\" />\n      <created>1646899551091</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1646899551091</updated>\n      <workItem from=\"1646899553743\" duration=\"215000\" />\n      <workItem from=\"1646906837710\" duration=\"1691000\" />\n      <workItem from=\"1646914494755\" duration=\"5735000\" />\n      <workItem from=\"1646991228756\" duration=\"4012000\" />\n      <workItem from=\"1647417724104\" duration=\"21118000\" />\n      <workItem from=\"1647513669363\" duration=\"455000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"New branch and trying some stuff\">\n      <created>1646908444517</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646908444517</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Gets expected result for matches but duplicated\">\n      <created>1646917540778</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646917540778</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Gets expected result\">\n      <created>1646917685661</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646917685661</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Gets expected result, still a mess though\">\n      <created>1646917790685</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646917790686</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Gets expected result, still a mess though\">\n      <created>1646918233560</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646918233560</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"issues with duplicates\">\n      <created>1646918592575</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646918592575</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"duplicates issue seems to be fixed\">\n      <created>1646918720157</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646918720157</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"fixing some issues\">\n      <created>1646919360262</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646919360262</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"torus, products, trees, bigtrees work&#10;cubes, modules, wheels don't work yet\">\n      <created>1646920229988</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646920229988</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"test files\">\n      <created>1646920241186</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646920241186</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"correct outcomes of tests file\">\n      <created>1646995247973</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646995247973</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Seems to work correctly for now, just slow as fuck\">\n      <created>1647424355835</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647424355835</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"small fix &#10;so it does not show graphs that are not isomorphic to others as a set all by itself\">\n      <created>1647424987564</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647424987564</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"trying to speed up code\">\n      <created>1647436335180</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647436335180</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"fixed issue with wheeljoin14\">\n      <created>1647439477076</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647439477076</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"16\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"New branch and trying some stuff\" />\n    <MESSAGE value=\"Gets expected result for matches but duplicated\" />\n    <MESSAGE value=\"Gets expected result\" />\n    <MESSAGE value=\"Gets expected result, still a mess though\" />\n    <MESSAGE value=\"issues with duplicates\" />\n    <MESSAGE value=\"duplicates issue seems to be fixed\" />\n    <MESSAGE value=\"fixing some issues\" />\n    <MESSAGE value=\"torus, products, trees, bigtrees work&#10;cubes, modules, wheels don't work yet\" />\n    <MESSAGE value=\"test files\" />\n    <MESSAGE value=\"correct outcomes of tests file\" />\n    <MESSAGE value=\"Seems to work correctly for now, just slow as fuck\" />\n    <MESSAGE value=\"small fix &#10;so it does not show graphs that are not isomorphic to others as a set all by itself\" />\n    <MESSAGE value=\"trying to speed up code\" />\n    <MESSAGE value=\"fixed issue with wheeljoin14\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"fixed issue with wheeljoin14\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <default-breakpoints>\n        <breakpoint type=\"python-exception\">\n          <properties notifyOnTerminate=\"true\" exception=\"BaseException\">\n            <option name=\"notifyOnTerminate\" value=\"true\" />\n          </properties>\n        </breakpoint>\n      </default-breakpoints>\n    </breakpoint-manager>\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/graph$color_partition_renske.coverage\" NAME=\"color_partition_renske Coverage Results\" MODIFIED=\"1647441109885\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -1,10 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="fixed issue with wheeljoin14">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
+-    </list>
++    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="fixed issue with wheeljoin14" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -13,12 +10,16 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="main" />
++        <entry key="$PROJECT_DIR$" value="branching_m" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="ProjectId" id="26BahJmA485gn9BV2QMGAY6Au99" />
++  <component name="ProjectLevelVcsManager">
++    <OptionsSetting value="false" id="Update" />
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+@@ -190,12 +191,23 @@
+       <map>
+         <entry key="MAIN">
+           <value>
+-            <State />
++            <State>
++              <option name="FILTERS">
++                <map>
++                  <entry key="branch">
++                    <value>
++                      <list>
++                        <option value="branching_d" />
++                      </list>
++                    </value>
++                  </entry>
++                </map>
++              </option>
++            </State>
+           </value>
+         </entry>
+       </map>
+     </option>
+-    <option name="oldMeFiltersMigrated" value="true" />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="New branch and trying some stuff" />
+@@ -225,7 +237,4 @@
+       </default-breakpoints>
+     </breakpoint-manager>
+   </component>
+-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/graph$color_partition_renske.coverage" NAME="color_partition_renske Coverage Results" MODIFIED="1647441109885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-  </component>
+ </project>
+\ No newline at end of file

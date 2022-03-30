@@ -1,0 +1,255 @@
+Index: color_partition_renske.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from graph_io import *\nfrom permv2 import *\nfrom basicpermutationgroup import *\nimport timeit\n\npermutations = []\n\ndef color_nbs(vertex):  # COLOR_NeighBourS\n    return sorted([v.colornum for v in vertex.neighbours])\n\n\ndef colors_in_graph(graph):  # Give all colors for a given graph\n    return sorted([v.colornum for v in graph])\n\n\ndef identifier(v):  # Identifier for a vertex: its own color followed by its neighbours colors, sorted\n    return tuple([v.colornum] + color_nbs(v))\n\n\ndef colorpartition(graph_list, initial_coloring=False):\n    all_vertices = []\n    for graph in graph_list:\n        all_vertices += graph.vertices\n\n    if not initial_coloring:  # Give every vertex the same color as the first iteration if no coloring is specified\n        for vertex in all_vertices:\n            vertex.colornum = 0\n\n    iteration(graph_list)  # color refinement algorithm\n    result(graph_list)\n\n    pass\n\n\ndef createPermutation(graphA, graphB):\n    permutations = []\n\n    for vertexA in graphA.vertices:\n        for vertexB in graphB.vertices:\n            if vertexA.colornum == vertexB.colornum:\n                permutations.append([vertexA.label, vertexB.label])\n\n    p = [None] * len(permutations)\n    for i in range(len(permutations)):\n        p[permutations[i][0]] = permutations[i][1]\n\n    return p\n\n\ndef result(graph_list):\n    checked = []\n    for i, graph1 in enumerate(graph_list):\n        if graph1 in checked:\n            continue\n\n        this_set = [i]\n        for j, graph2 in enumerate(graph_list[i + 1:]):\n            if colors_in_graph(graph1) == colors_in_graph(graph2):  # check if balanced\n                if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete\n                    this_set += [i + j + 1]\n                    checked.append(graph2)\n                if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete\n                    graphs = [graph1, graph2]\n                    isomorphic = isomorphism(graphs, {})  # enter branching algorithm\n\n                    for graph in graph_list:\n                        for v in graph.vertices:\n                            v.colornum = 0\n\n                    iteration(graph_list)  # give graphs their original stable coloring again\n\n                    if isomorphic:  # an isomorphism is found\n                        this_set += [i + j + 1]\n                        checked.append(graph2)\n\n        automorphisms = automorphism([graph1, graph1.copy()], {})\n        perm_objects = []\n        for p in permutations:\n            perm_objects.append(permutation(len(p), mapping=p))\n        count = order(perm_objects)\n        permutations = []\n        print(f'{this_set} {automorphisms}')\n\n\ndef automorphism(graphs, col, explore=True):\n    global permutations\n    iteration(graphs)\n    graph1, graph2 = graphs[0], graphs[1]\n\n    if colors_in_graph(graph1) != colors_in_graph(graph2):  # if not balanced\n        return 0\n    if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection\n        p = createPermutation(graph1, graph2)\n        permutations.append(p)\n        return 1\n\n    graph_color = colors_in_graph(graph1)  # get current coloring\n    color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences\n    x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1\n\n    num = 0\n\n    vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class\n\n    for i, y in enumerate(vertices):\n        # give new initial coloring\n        col[color_class] = []\n        col[color_class].append(x)\n        col[color_class].append(y)\n\n        for graph in graphs:\n            for v in graph.vertices:\n                v.colornum = 0  # not chosen vertices are given 0\n\n        for color in col:\n            for v in col[color]:\n                v.colornum = color  # chosen vertex x and y get new color\n\n        # TODO: clean this section\n\n        num += automorphism(graphs, col, explore)  # continue until bijection or not balanced\n        if not explore and i == 0:\n            col[color_class] = []\n            return 0\n\n        explore = False\n        col[color_class] = []  # clear list with special vertices for new choice\n\n    return num\n\n\ndef iteration(graph_list):\n    all_vertices = []\n    for graph in graph_list:\n        all_vertices += graph.vertices\n\n    patterns = {}\n\n    while True:  # Color refinement algorithm\n        highest_color = 0\n        new_patterns = {}\n        for vertex in all_vertices:  # Check each vertex once every iteration\n            neighbourhood = identifier(vertex)\n            if neighbourhood in new_patterns:\n                vertex.newcolor = new_patterns[neighbourhood]\n            else:\n                highest_color += 1\n                new_patterns[neighbourhood] = highest_color\n                vertex.newcolor = highest_color\n        if patterns == new_patterns:\n            break\n        patterns = new_patterns\n        for v in all_vertices:\n            v.colornum = v.newcolor\n\n\ndef order(H):\n    if len(H)==1:\n        return len(H[0].cycles()[0])\n    alpha = 0\n    orbit = Orbit(H, alpha)\n    while orbit == [alpha]:\n        alpha += 1\n        orbit = Orbit(H, alpha)\n    return len(orbit)*order(Stabilizer(H, alpha))\n\n\n\nwith open('testfiles/Trees11.grl') as f:\n    L = load_graph(f, read_list=True)[0]\n\nt1 = timeit.default_timer()\ncolorpartition(L)\nt2 = timeit.default_timer()\nprint(t2 - t1)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/color_partition_renske.py b/color_partition_renske.py
+--- a/color_partition_renske.py	
++++ b/color_partition_renske.py	
+@@ -48,6 +48,7 @@
+ 
+ 
+ def result(graph_list):
++    global permutations
+     checked = []
+     for i, graph1 in enumerate(graph_list):
+         if graph1 in checked:
+@@ -73,13 +74,14 @@
+                         this_set += [i + j + 1]
+                         checked.append(graph2)
+ 
+-        automorphisms = automorphism([graph1, graph1.copy()], {})
++        automorphisms = automorphism([graph1, graph_list[this_set[-1]]], {})
+         perm_objects = []
+         for p in permutations:
+             perm_objects.append(permutation(len(p), mapping=p))
+         count = order(perm_objects)
++        print(perm_objects)
+         permutations = []
+-        print(f'{this_set} {automorphisms}')
++        print(f'{this_set} {count}')
+ 
+ 
+ def automorphism(graphs, col, explore=True):
+@@ -118,6 +120,7 @@
+ 
+         # TODO: clean this section
+ 
++        print(x.label, '->', y.label)
+         num += automorphism(graphs, col, explore)  # continue until bijection or not balanced
+         if not explore and i == 0:
+             col[color_class] = []
+@@ -129,6 +132,43 @@
+     return num
+ 
+ 
++def isomorphism(graphs, col):
++    iteration(graphs)
++    graph1, graph2 = graphs[0], graphs[1]
++
++    if colors_in_graph(graph1) != colors_in_graph(graph2):  # if not balanced
++        return False
++    if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
++        return True
++
++    graph_color = colors_in_graph(graph1)  # get current coloring
++    color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
++    x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
++
++    vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
++    col[color_class] = []
++
++    for y in vertices:
++        # give new initial coloring
++        col[color_class].append(x)
++        col[color_class].append(y)
++
++        for graph in graphs:
++            for v in graph.vertices:
++                v.colornum = 0  # not chosen vertices are given 0
++
++        for color in col:
++            for v in col[color]:
++                v.colornum = color  # chosen vertex x and y get new color
++
++        if isomorphism(graphs, col):
++            return True # continue until bijection or not balanced
++
++        col[color_class] = []  # clear list with special vertices for new choice
++
++    return False
++
++
+ def iteration(graph_list):
+     all_vertices = []
+     for graph in graph_list:
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"b830ca7b-a07f-41ed-a9e8-bb2a8799362a\" name=\"Changes\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/color_partition_renske.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/color_partition_renske.py\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitSEFilterConfiguration\">\n    <file-type-list>\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\n      <filtered-out-file-type name=\"TAG\" />\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\n    </file-type-list>\n  </component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/color_partition_renske.py\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"26BahJmA485gn9BV2QMGAY6Au99\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <OptionsSetting value=\"false\" id=\"Update\" />\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"ASKED_ADD_EXTERNAL_FILES\" value=\"true\" />\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/testfiles\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/testfiles\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Python.color_partition_renske\">\n    <configuration name=\"color_partition_renske\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"/usr/local/bin/python3.9\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <module name=\"\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/color_partition_renske.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <module name=\"\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"b830ca7b-a07f-41ed-a9e8-bb2a8799362a\" name=\"Changes\" comment=\"\" />\n      <created>1646899551091</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1646899551091</updated>\n      <workItem from=\"1646899553743\" duration=\"215000\" />\n      <workItem from=\"1646906837710\" duration=\"1691000\" />\n      <workItem from=\"1646914494755\" duration=\"5735000\" />\n      <workItem from=\"1646991228756\" duration=\"4012000\" />\n      <workItem from=\"1647417724104\" duration=\"21118000\" />\n      <workItem from=\"1647513669363\" duration=\"1185000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"New branch and trying some stuff\">\n      <created>1646908444517</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646908444517</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Gets expected result for matches but duplicated\">\n      <created>1646917540778</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646917540778</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Gets expected result\">\n      <created>1646917685661</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646917685661</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Gets expected result, still a mess though\">\n      <created>1646917790685</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646917790686</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Gets expected result, still a mess though\">\n      <created>1646918233560</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646918233560</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"issues with duplicates\">\n      <created>1646918592575</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646918592575</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"duplicates issue seems to be fixed\">\n      <created>1646918720157</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646918720157</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"fixing some issues\">\n      <created>1646919360262</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646919360262</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"torus, products, trees, bigtrees work&#10;cubes, modules, wheels don't work yet\">\n      <created>1646920229988</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646920229988</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"test files\">\n      <created>1646920241186</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646920241186</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"correct outcomes of tests file\">\n      <created>1646995247973</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1646995247973</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Seems to work correctly for now, just slow as fuck\">\n      <created>1647424355835</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647424355835</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"small fix &#10;so it does not show graphs that are not isomorphic to others as a set all by itself\">\n      <created>1647424987564</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647424987564</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"trying to speed up code\">\n      <created>1647436335180</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647436335180</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"fixed issue with wheeljoin14\">\n      <created>1647439477076</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647439477076</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"comments for readability\">\n      <created>1647514180861</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647514180861</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"initial commit\">\n      <created>1647524450954</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1647524450954</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"added createPermutation\">\n      <created>1648044957007</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1648044957007</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"19\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\n    <MESSAGE value=\"New branch and trying some stuff\" />\n    <MESSAGE value=\"Gets expected result for matches but duplicated\" />\n    <MESSAGE value=\"Gets expected result\" />\n    <MESSAGE value=\"Gets expected result, still a mess though\" />\n    <MESSAGE value=\"issues with duplicates\" />\n    <MESSAGE value=\"duplicates issue seems to be fixed\" />\n    <MESSAGE value=\"fixing some issues\" />\n    <MESSAGE value=\"torus, products, trees, bigtrees work&#10;cubes, modules, wheels don't work yet\" />\n    <MESSAGE value=\"test files\" />\n    <MESSAGE value=\"correct outcomes of tests file\" />\n    <MESSAGE value=\"Seems to work correctly for now, just slow as fuck\" />\n    <MESSAGE value=\"small fix &#10;so it does not show graphs that are not isomorphic to others as a set all by itself\" />\n    <MESSAGE value=\"trying to speed up code\" />\n    <MESSAGE value=\"fixed issue with wheeljoin14\" />\n    <MESSAGE value=\"comments for readability\" />\n    <MESSAGE value=\"initial commit\" />\n    <MESSAGE value=\"added createPermutation\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"added createPermutation\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <default-breakpoints>\n        <breakpoint type=\"python-exception\">\n          <properties notifyOnTerminate=\"true\" exception=\"BaseException\">\n            <option name=\"notifyOnTerminate\" value=\"true\" />\n          </properties>\n        </breakpoint>\n      </default-breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -2,6 +2,7 @@
+ <project version="4">
+   <component name="ChangeListManager">
+     <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching 2.txt" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/color_partition_renske.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_partition_renske.py" afterDir="false" />
+     </list>
+@@ -27,8 +28,8 @@
+     </file-type-list>
+   </component>
+   <component name="HighlightingSettingsPerFile">
+-    <setting file="file://$PROJECT_DIR$/color_partition_renske.py" root0="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" root0="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/color_partition_renske.py" root0="FORCE_HIGHLIGHTING" />
+   </component>
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+Index: testfiles/Equivalence classes and automorphisms SampleGraphSetBranching 2.txt
+===================================================================
+diff --git a/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching 2.txt b/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching 2.txt
+new file mode 100644
+--- /dev/null	
++++ b/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching 2.txt	
+@@ -0,0 +1,132 @@
++Isomorphic pairs are listed, with next to them the number of automorphisms. Note that for these instance it happens to be isomorphic pairs only (a coincidence), but in general, the equivalence classes of isomorphic graphs could of course contain more than only two graphs.
++
++torus24:
++[0,3] 96
++[1,2] 96
++
++torus72:
++[0, 2] 288
++[1, 5] 288
++[3, 6] 288
++[4, 7] 288
++
++torus 144:
++[0, 6] 576
++[1, 7] 576
++[2, 4] 576
++[3, 10] 576
++[5, 9] 1152
++[8, 11] 576
++
++products72:
++[0,6] 288
++[1,5] 576
++[2,3] 576
++[4,7] 864
++
++products216:
++[0, 6] 1728
++[1, 7] 1728
++[2, 9] 1728
++[3, 8] 10368
++[4, 5] 1728
++
++cographs1:
++[0,3] 5971968
++[1,2] 995328
++
++Torus 144:
++[0, 6]  576
++[1, 7]  576
++[2, 4]  576
++[3, 10]  576
++[5, 9]  1152
++[8, 11]  576
++
++Trees11:
++[0, 3] 6
++[1, 4] 1
++[2, 5] 2
++
++Trees36:
++[0, 7] 2
++[1, 4] 6
++[2, 6] 2
++[3, 5] 6
++
++Trees90:
++[0, 3] 6912
++[1, 2] 20736
++
++modulesC:
++[0, 7] 17915904
++[1, 5] 17915904
++[2, 4] 2488320
++[3, 6] 2985984
++
++modulesD:
++[0, 2] 24
++[1, 3] 1
++[4, 5] 24
++
++cubes3:
++[0, 2] 48
++[1, 3] 16
++
++cubes5:
++[0, 1] 3840
++[2, 3] 24
++
++cubes6:
++[0, 1] 96
++[2, 3] 46080
++
++cubes7:
++[0, 3] 645120
++[1, 2] 480
++
++cubes9:
++[0, 1] 185794560
++[2, 3] 20160
++
++bigtrees1:
++[0, 2]  442368
++[1, 3]  5308416
++
++bigtrees2:
++[0, 3]  80244904034304
++[1, 2]  160489808068608
++
++bigtrees3:
++[0, 2] 2772351862699137701073289910157312
++[1, 3] 462058643783189616845548318359552
++
++wheeljoin14:
++[0, 1] 1600
++[2, 3] 672
++[4, 7] 1536
++[5, 6] 720
++
++wheeljoin19:  # First test code: 84.46 seconds, second test code: 122.63 (but different answers)
++[0, 1] 48000
++[2, 9] 13824
++[3, 4] 14400
++[5, 6] 15360 or 92160
++[7, 8] 26880 or 6720
++
++
++wheeljoin33:
++[0, 4] 8257536
++[1, 2] 7962624
++[3, 5] 50577408
++[6, 7] 1290240
++
++whellstar12:
++[0, 3] 1935360
++[1, 2] 6718464
++
++wheelstar15:
++[0, 7] 1703116800
++[1, 4] 3009871872
++[2, 3] 10642046976
++[5, 6] 2890137600
+\ No newline at end of file
