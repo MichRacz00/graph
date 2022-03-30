@@ -33,6 +33,7 @@ def colorpartition(graph_list, initial_coloring=False):
 
 def twins(graph_list):
     for graph in graph_list:
+        print('New graph')
         checked = []
         for i, v1 in enumerate(graph.vertices):
             if v1 in checked:
@@ -41,9 +42,11 @@ def twins(graph_list):
                 if v2 in checked:
                     continue
                 if set(v1.neighbours) == set(v2.neighbours):  # These vertices are false twins
+                    print(f'False twins {v1}, {v2}')
                     v2.colornum = v2.degree
                     checked.append(v2)
                 elif set(v1.neighbours + [v1]) == set(v2.neighbours + [v2]):  # These vertices are twins
+                    print(f'Twins {v1}, {v2}')
                     v2.colornum = v2.degree
                     checked.append(v2)
     pass
@@ -60,21 +63,15 @@ def result(graph_list):
                 if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete
                     print(f'{this_set} 1')
                 if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete
-                    graphs = [graph1, graph2]
+                    graphs = [graph1.copy(), graph2.copy()]
                     isomorphic = isomorphism(graphs, {})  # enter branching algorithm
-
-                    for graph in graph_list:
-                        for v in graph.vertices:
-                            v.colornum = 0
-
-                    iteration(graph_list)  # give graphs their original stable coloring again
 
                     if isomorphic:  # an isomorphism is found
                         this_set += [i + j + 1]
                         checked.append(graph2)
 
-        #automorphisms = countIsomorphism([graph_list[this_set[0]], graph_list[this_set[-1]]], {})
-        print(f'{this_set}')# {automorphisms}')
+        automorphisms = countIsomorphism([graph_list[this_set[0]], graph_list[this_set[-1]]], {})
+        print(f'{this_set} {automorphisms}')
 
 
     pass
@@ -90,7 +87,18 @@ def countIsomorphism(graphs, col):
         return 1
 
     graph_color = colors_in_graph(graph1) # get current coloring
-    color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
+    # color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
+
+    minimum = 1000000000
+    for color in set(graph_color):
+        count = graph_color.count(color)
+        if count < minimum and count > 1:
+            color_class = color
+
+            minimum = count
+        if minimum == 2:
+            break
+
     x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
 
     num = 0
@@ -126,7 +134,16 @@ def isomorphism(graphs, col):
         return True
 
     graph_color = colors_in_graph(graph1)  # get current coloring
-    color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
+    # color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
+    minimum = 1000000000
+    for color in set(graph_color):
+        count = graph_color.count(color)
+        if count < minimum and count > 1:
+            color_class = color
+
+            minimum = count
+        if minimum == 2:
+            break
     x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
 
     vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
@@ -176,7 +193,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/cubes6.grl') as f:
+with open('testfiles/products72.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()

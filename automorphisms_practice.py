@@ -1,6 +1,7 @@
 from graph_io import *
 import timeit
-
+from basicpermutationgroup import *
+from permv2 import *
 
 def color_nbs(vertex):  # COLOR_NeighBourS
     return sorted([v.colornum for v in vertex.neighbours])
@@ -31,23 +32,6 @@ def colorpartition(graph_list, initial_coloring=False):
 
     pass
 
-def twins(graph_list):
-    for graph in graph_list:
-        checked = []
-        for i, v1 in enumerate(graph.vertices):
-            if v1 in checked:
-                continue
-            for v2 in graph.vertices[i+1:]:
-                if v2 in checked:
-                    continue
-                if set(v1.neighbours) == set(v2.neighbours):  # These vertices are false twins
-                    v2.colornum = v2.degree
-                    checked.append(v2)
-                elif set(v1.neighbours + [v1]) == set(v2.neighbours + [v2]):  # These vertices are twins
-                    v2.colornum = v2.degree
-                    checked.append(v2)
-    pass
-
 def result(graph_list):
     checked = []
     for i, graph1 in enumerate(graph_list):
@@ -73,14 +57,13 @@ def result(graph_list):
                         this_set += [i + j + 1]
                         checked.append(graph2)
 
-        #automorphisms = countIsomorphism([graph_list[this_set[0]], graph_list[this_set[-1]]], {})
-        print(f'{this_set}')# {automorphisms}')
+        automorphisms = generateIsomorphism([graph1, graph1.copy()], {})
+        print(f'{this_set} {automorphisms}')
 
 
     pass
 
-
-def countIsomorphism(graphs, col):
+def generateIsomorphisms(graphs, col):
     iteration(graphs)
     graph1, graph2 = graphs[0], graphs[1]
 
@@ -110,11 +93,9 @@ def countIsomorphism(graphs, col):
             for v in col[color]:
                 v.colornum = color  # chosen vertex x and y get new color
 
-        num += countIsomorphism(graphs, col)  # continue until bijection or not balanced
+        num += generateIsomorphism(graphs, col)  # continue until bijection or not balanced
         col[color_class] = []  # clear list with special vertices for new choice
-
     return num
-
 
 def isomorphism(graphs, col):
     iteration(graphs)
@@ -148,7 +129,6 @@ def isomorphism(graphs, col):
             return True # continue until bijection or not balanced
 
         col[color_class] = [x]  # clear list with special vertices for new choice
-
     return False
 
 def iteration(graph_list):
@@ -176,10 +156,18 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/cubes6.grl') as f:
-    L = load_graph(f, read_list=True)[0]
+def order(H):
+    if len(H)==1:
+        return len(H[0].cycles()[0])
+    alpha = 0
+    orbit = Orbit(H, alpha)
+    while orbit == [alpha]:
+        alpha += 1
+        orbit = Orbit(H, alpha)
+    return len(orbit)*order(Stabilizer(H, alpha))
 
-t1 = timeit.default_timer()
-colorpartition(L)
-t2 = timeit.default_timer()
-print(t2 - t1)
+p = permutation(6, cycles=[[0, 1, 2], [4, 5]])
+
+q = permutation(6, cycles=[[2, 3]])
+
+print(order([p, q]))

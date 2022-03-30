@@ -107,6 +107,14 @@ wheeljoin14:
 [4, 7] 1536
 [5, 6] 720
 
+wheeljoin19:  # First test code: 84.46 seconds, second test code: 122.63 (but different answers)
+[0, 1] 48000
+[2, 9] 13824
+[3, 4] 14400
+[5, 6] 15360 or 92160
+[7, 8] 26880 or 6720
+
+
 wheeljoin33:
 [0, 4] 8257536
 [1, 2] 7962624
