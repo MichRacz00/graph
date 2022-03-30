@@ -132,10 +132,11 @@ def isomorphism(graphs, col):
     x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
 
     vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
-    col[color_class] = [x]
+    col[color_class] = []
 
     for y in vertices:
         # give new initial coloring
+        col[color_class].append(x)
         col[color_class].append(y)
 
         for graph in graphs:
@@ -149,7 +150,7 @@ def isomorphism(graphs, col):
         if isomorphism(graphs, col):
             return True # continue until bijection or not balanced
 
-        col[color_class] = [x]  # clear list with special vertices for new choice
+        col[color_class] = []  # clear list with special vertices for new choice
 
     return False
 
