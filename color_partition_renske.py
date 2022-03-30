@@ -74,7 +74,7 @@ def result(graph_list):
                         this_set += [i + j + 1]
                         checked.append(graph2)
 
-        automorphisms = automorphism([graph_list[this_set[0]], graph_list[this_set[0].copy()]], {})
+        automorphisms = automorphism([graph1, graph1.copy()], {})
 
         print(f'{this_set} {automorphisms}')
 
