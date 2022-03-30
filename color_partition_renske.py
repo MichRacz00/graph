@@ -48,6 +48,7 @@ def createPermutation(graphA, graphB):
 
 
 def result(graph_list):
+    global permutations
     checked = []
     for i, graph1 in enumerate(graph_list):
         if graph1 in checked:
@@ -79,7 +80,7 @@ def result(graph_list):
             perm_objects.append(permutation(len(p), mapping=p))
         count = order(perm_objects)
         permutations = []
-        print(f'{this_set} {automorphisms}')
+        print(f'{this_set} {count}')
 
 
 def automorphism(graphs, col, explore=True):
