@@ -49,8 +49,6 @@ def createPermutation(graphA, graphB):
 
 def result(graph_list):
     checked = []
-    global permutations
-    print('Sets of possibly isomorphic graphs:')
     for i, graph1 in enumerate(graph_list):
         if graph1 in checked:
             continue
@@ -58,43 +56,33 @@ def result(graph_list):
         this_set = [i]
         for j, graph2 in enumerate(graph_list[i + 1:]):
             if colors_in_graph(graph1) == colors_in_graph(graph2):  # check if balanced
-                this_set += [i + j + 1]
                 if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete
-                    # print(f'{this_set} 1')
-                    count = 1
+                    this_set += [i + j + 1]
+                    checked.append(graph2)
                 if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete
-                    graphs = [graph_list[this_set[0]], graph_list[this_set[-1]]]
-                    countIsomorphism(graphs, {})  # enter branching algorithm
+                    graphs = [graph1, graph2]
+                    isomorphic = isomorphism(graphs, {})  # enter branching algorithm
 
-                    perm_objects = []
-                    for p in permutations:
-                        perm_objects.append(permutation(len(p), mapping=p))
-                    count = order(perm_objects)
-                    permutations = []
-
-                    if count != 0:  # a isomorphism is found
-                        print(str(this_set) + " " + str(count))
-                        checked.append(graph2)
-                    else:  # no isomorphism found
-                        del this_set[-1]
-
-                    for graph in graph_list:  # initial coloring
+                    for graph in graph_list:
                         for v in graph.vertices:
                             v.colornum = 0
 
                     iteration(graph_list)  # give graphs their original stable coloring again
 
-    pass
+                    if isomorphic:  # an isomorphism is found
+                        this_set += [i + j + 1]
+                        checked.append(graph2)
+
+        automorphisms = automorphism([graph1, graph1.copy()], {})
+        perm_objects = []
+        for p in permutations:
+            perm_objects.append(permutation(len(p), mapping=p))
+        count = order(perm_objects)
+        permutations = []
+        print(f'{this_set} {automorphisms}')
 
 
-perm_objects = []
-for p in permutations:
-    perm_objects.append(permutation(len(p), mapping=p))
-count = order(perm_objects)
-permutations = []
-
-
-def countIsomorphism(graphs, col, explore=True):
+def automorphism(graphs, col, explore=True):
     global permutations
     iteration(graphs)
     graph1, graph2 = graphs[0], graphs[1]
@@ -130,7 +118,7 @@ def countIsomorphism(graphs, col, explore=True):
 
         # TODO: clean this section
 
-        num += countIsomorphism(graphs, col, explore)  # continue until bijection or not balanced
+        num += automorphism(graphs, col, explore)  # continue until bijection or not balanced
         if not explore and i == 0:
             col[color_class] = []
             return 0
