@@ -5,6 +5,7 @@ import timeit
 
 permutations = []
 
+
 def color_nbs(vertex):  # COLOR_NeighBourS
     return sorted([v.colornum for v in vertex.neighbours])
 
@@ -33,16 +34,16 @@ def colorpartition(graph_list, initial_coloring=False):
 
 
 def createPermutation(graphA, graphB):
-    permutations = []
+    perm = []
 
     for vertexA in graphA.vertices:
         for vertexB in graphB.vertices:
             if vertexA.colornum == vertexB.colornum:
-                permutations.append([vertexA.label, vertexB.label])
+                perm.append([vertexA.label, vertexB.label])
 
-    p = [None] * len(permutations)
-    for i in range(len(permutations)):
-        p[permutations[i][0]] = permutations[i][1]
+    p = [None] * len(perm)
+    for i in range(len(perm)):
+        p[perm[i][0]] = perm[i][1]
 
     return p
 
@@ -55,11 +56,13 @@ def result(graph_list):
             continue
 
         this_set = [i]
+        discrete = False
         for j, graph2 in enumerate(graph_list[i + 1:]):
             if colors_in_graph(graph1) == colors_in_graph(graph2):  # check if balanced
                 if len(set(colors_in_graph(graph1))) == len(graph1):  # check if discrete
                     this_set += [i + j + 1]
                     checked.append(graph2)
+                    discrete = True
                 if len(set(colors_in_graph(graph1))) != len(graph1):  # if not discrete
                     graphs = [graph1, graph2]
                     isomorphic = isomorphism(graphs, {})  # enter branching algorithm
@@ -74,10 +77,16 @@ def result(graph_list):
                         this_set += [i + j + 1]
                         checked.append(graph2)
 
-        automorphisms = automorphism([graph1, graph1.copy()], {})
+        if discrete:
+            print(f'{this_set} 1')
+            permutations = []
+            continue
+
+        automorphism([graph1, graph1.copy()], {})
         perm_objects = []
         for p in permutations:
             perm_objects.append(permutation(len(p), mapping=p))
+        print(perm_objects)
         count = order(perm_objects)
         permutations = []
         print(f'{this_set} {count}')
@@ -130,6 +139,43 @@ def automorphism(graphs, col, explore=True):
     return num
 
 
+def isomorphism(graphs, col):
+    iteration(graphs)
+    graph1, graph2 = graphs[0], graphs[1]
+
+    if colors_in_graph(graph1) != colors_in_graph(graph2):  # if not balanced
+        return False
+    if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
+        return True
+
+    graph_color = colors_in_graph(graph1)  # get current coloring
+    color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
+    x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
+
+    vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
+    col[color_class] = []
+
+    for y in vertices:
+        # give new initial coloring
+        col[color_class].append(x)
+        col[color_class].append(y)
+
+        for graph in graphs:
+            for v in graph.vertices:
+                v.colornum = 0  # not chosen vertices are given 0
+
+        for color in col:
+            for v in col[color]:
+                v.colornum = color  # chosen vertex x and y get new color
+
+        if isomorphism(graphs, col):
+            return True  # continue until bijection or not balanced
+
+        col[color_class] = []  # clear list with special vertices for new choice
+
+    return False
+
+
 def iteration(graph_list):
     all_vertices = []
     for graph in graph_list:
@@ -156,18 +202,17 @@ def iteration(graph_list):
 
 
 def order(H):
-    if len(H)==1:
+    if len(H) == 1:
         return len(H[0].cycles()[0])
     alpha = 0
     orbit = Orbit(H, alpha)
     while orbit == [alpha]:
         alpha += 1
         orbit = Orbit(H, alpha)
-    return len(orbit)*order(Stabilizer(H, alpha))
+    return len(orbit) * order(Stabilizer(H, alpha))
 
 
-
-with open('testfiles/Trees11.grl') as f:
+with open('testfiles/modulesD.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()

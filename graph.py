@@ -329,12 +329,13 @@ class Graph(object):
 
     def copy(self):
         n = len(self)
-        G = graph(n)
+        G = Graph(self.directed, n)
         vertex_map = {self.vertices[i]:G.vertices[i] for i in range(n)}
         for edge in self.edges:
             G += Edge(vertex_map[edge.tail], vertex_map[edge.head])
         for vertex in self.vertices:
             vertex_map[vertex].label = vertex.label
+            vertex_map[vertex].colornum = vertex.colornum
 
         return G
 
