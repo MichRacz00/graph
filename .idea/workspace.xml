@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Implemented copy function with label copy">
-      <change afterPath="$PROJECT_DIR$/color_branching.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_03_2022_15_07__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_03_2022_15_07__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_03_2022_13_56__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_03_2022_13_56__Changes_.xml" afterDir="false" />
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Fixed recursion error in order">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/color_branching.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_branching.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -329,7 +325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648645564599</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Fixed recursion error in order">
+      <created>1649245898440</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1649245898440</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,7 +397,8 @@
     <MESSAGE value="Separated isomorphism checking and automorphism counting" />
     <MESSAGE value="Separated isomorphism checking and automorphism counting again" />
     <MESSAGE value="Updated isomorphism function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated isomorphism function" />
+    <MESSAGE value="Fixed recursion error in order" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed recursion error in order" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

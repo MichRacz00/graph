@@ -18,7 +18,7 @@ def identifier(v):  # Identifier for a vertex: its own color followed by its nei
     return tuple([v.colornum] + color_nbs(v))
 
 
-def colorpartition(graph_list, initial_coloring=False):
+def colorpartition(graph_list, counting, initial_coloring=False):
     all_vertices = []
     for graph in graph_list:
         all_vertices += graph.vertices
@@ -28,7 +28,7 @@ def colorpartition(graph_list, initial_coloring=False):
             vertex.colornum = 0
 
     iteration(graph_list)  # color refinement algorithm
-    result(graph_list)
+    result(graph_list, counting)
 
     pass
 
@@ -48,9 +48,10 @@ def createPermutation(graphA, graphB):
     return p
 
 
-def result(graph_list):
+def result(graph_list, counting):
     global permutations
     checked = []
+    print(f'Sets of isomorphic graphs:   {"Number of automorphisms: " if counting else ""}')
     for i, graph1 in enumerate(graph_list):
         if graph1 in checked:
             continue
@@ -76,9 +77,12 @@ def result(graph_list):
                     if isomorphic:  # an isomorphism is found
                         this_set += [i + j + 1]
                         checked.append(graph2)
+        if not counting:
+            print(this_set)
+            continue
 
         if discrete:
-            print(f'{this_set} 1')
+            print(f'{str(this_set):<29}1')
             permutations = []
             continue
 
@@ -90,7 +94,7 @@ def result(graph_list):
         # print(perm_objects)
         count = order(perm_objects)
         permutations = []
-        print(f'{this_set} {count}')
+        print(f'{str(this_set):<29}{count}')
 
 
 def automorphism(graphs, col, explore=True):
@@ -203,7 +207,6 @@ def iteration(graph_list):
 
 
 def order(H):
-    # print(f'Length of {H = } is {len(H)}')
     if len(H) == 0:
         return 1
     if len(H) == 1:
@@ -216,11 +219,11 @@ def order(H):
     # print(orbit, alpha, H)
     return len(orbit) * order(Stabilizer(H, alpha))
 
-
-with open('testfiles/bigtrees3.grl') as f:
+filename = str(input('What is the filename: '))
+with open(filename) as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
-colorpartition(L)
+colorpartition(L, counting = True)
 t2 = timeit.default_timer()
 print(t2 - t1)
