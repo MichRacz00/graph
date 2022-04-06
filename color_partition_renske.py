@@ -112,7 +112,7 @@ def automorphism(graphs, col):
             for v in col[color]:
                 v.colornum = color  # chosen vertex x and y get new color
 
-        num += countIsomorphism(graphs, col)  # continue until bijection or not balanced
+        num += automorphism(graphs, col)  # continue until bijection or not balanced
         col[color_class] = []  # clear list with special vertices for new choice
 
     return num
@@ -179,7 +179,7 @@ def iteration(graph_list):
             v.colornum = v.newcolor
 
 
-with open('testfiles/cubes6.grl') as f:
+with open('testfiles/modulesD.grl') as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()

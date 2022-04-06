@@ -219,11 +219,18 @@ def order(H):
     # print(orbit, alpha, H)
     return len(orbit) * order(Stabilizer(H, alpha))
 
+
 filename = str(input('What is the filename: '))
+display_counting = str(input('Display number of automorphisms? (Y/N) '))
+if display_counting == 'Y':
+    display_counting = True
+else:
+    display_counting = False
+
 with open(filename) as f:
     L = load_graph(f, read_list=True)[0]
 
 t1 = timeit.default_timer()
-colorpartition(L, counting = True)
+colorpartition(L, counting=display_counting)
 t2 = timeit.default_timer()
 print(t2 - t1)
