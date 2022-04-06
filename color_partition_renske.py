@@ -202,6 +202,8 @@ def iteration(graph_list):
 
 
 def order(H):
+    if len(H) == 0:
+        return 1
     if len(H) == 1:
         return len(H[0].cycles()[0])
     alpha = 0
