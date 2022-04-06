@@ -1,7 +1,6 @@
 from graph_io import *
 from permv2 import *
 from basicpermutationgroup import *
-import timeit
 
 permutations = []
 
@@ -230,7 +229,4 @@ else:
 with open(filename) as f:
     L = load_graph(f, read_list=True)[0]
 
-t1 = timeit.default_timer()
 colorpartition(L, counting=display_counting)
-t2 = timeit.default_timer()
-print(t2 - t1)
