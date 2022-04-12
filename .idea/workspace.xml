@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Formatting input and output">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_03_2022_15_07__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_03_2022_15_07__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_03_2022_13_56__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_03_2022_13_56__Changes_.xml" afterDir="false" />
+    <list default="true" id="b830ca7b-a07f-41ed-a9e8-bb2a8799362a" name="Changes" comment="Fixing one problem, adding another">
+      <change afterPath="$PROJECT_DIR$/basicAut1.gr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basicAut2.gr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basicGI1.grl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basicGI2.grl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basicGI3.grl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basicGIAut1.grl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/graph_isomorphism.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color_branching.py" beforeDir="false" afterPath="$PROJECT_DIR$/color_branching.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testfiles/Equivalence classes and automorphisms SampleGraphSetBranching.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +69,7 @@
       <recent name="$PROJECT_DIR$/testfiles" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.color_branching">
+  <component name="RunManager" selected="Python.graph_isomorphism">
     <configuration name="automorphisms_practice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -152,6 +155,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="graph_isomorphism" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\rensk\anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graph_isomorphism.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -179,9 +203,11 @@
       <item itemvalue="Python.automorphisms_practice" />
       <item itemvalue="Python.color_branching" />
       <item itemvalue="Python.color_partition_change" />
+      <item itemvalue="Python.graph_isomorphism" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.graph_isomorphism" />
         <item itemvalue="Python.color_branching" />
         <item itemvalue="Python.automorphisms_practice" />
         <item itemvalue="Python.color_partition_change" />
@@ -364,7 +390,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649245898440</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Fixing one problem, adding another">
+      <created>1649682892844</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1649682892844</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -430,7 +463,8 @@
     <MESSAGE value="Separated isomorphism checking and automorphism counting again" />
     <MESSAGE value="Updated isomorphism function" />
     <MESSAGE value="Fixed recursion error in order" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed recursion error in order" />
+    <MESSAGE value="Fixing one problem, adding another" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing one problem, adding another" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

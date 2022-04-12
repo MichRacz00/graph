@@ -1,8 +1,7 @@
 from graph_io import *
 from permv2 import *
 from basicpermutationgroup import *
-import timeit
-import collections
+
 permutations = []
 
 
@@ -90,9 +89,7 @@ def result(graph_list, counting):
         perm_objects = []
         for p in permutations:
             perm_objects.append(permutation(len(p), mapping=p))
-        #print(perm_objects)
         perm_objects = Reduce(perm_objects)
-        #print(perm_objects)
         count = order(perm_objects)
         permutations = []
         print(f'{str(this_set):<29}{count}')
@@ -104,24 +101,19 @@ def automorphism(graphs, col, explore=True):
     graph1, graph2 = graphs[0], graphs[1]
 
     if colors_in_graph(graph1) != colors_in_graph(graph2):  # if not balanced
-        # print('Not balanced')
         return 0
     if len(set(colors_in_graph(graph1))) == len(graph1):  # if bijection
         p = createPermutation(graph1, graph2)
         permutations.append(p)
-        # print('Bijection')
         return 1
 
     graph_color = colors_in_graph(graph1)  # get current coloring
-    # x = collections.Counter(graph_color)
-    # color_class  = [t[0] for t in x.most_common()[::-1] if t[1] > 1][0]
     color_class = max(graph_color, key=graph_color.count)  # pick color class with most occurrences
     x = list(filter(lambda v: v.colornum == color_class, graph1.vertices))[0]  # get vertex in color class from graph 1
 
     vertices = [v for v in graph2.vertices if v.colornum == color_class]  # all vertices in graph 2 with color class
     first_branch = explore
     for y in vertices:
-        # print(f'{x}->{y}')
         # give new initial coloring
         col[color_class] = []
         col[color_class].append(x)
@@ -134,8 +126,6 @@ def automorphism(graphs, col, explore=True):
         for color in col:
             for v in col[color]:
                 v.colornum = color  # chosen vertex x and y get new color
-
-        # TODO: clean this section
 
         found = automorphism(graphs, col, first_branch)  # continue until bijection or not balanced
         if found == 1 and not explore:
@@ -211,7 +201,6 @@ def iteration(graph_list):
 
 
 def order(H):
-    #print(H)
     if len(H) == 0:
         return 1
     if len(H) == 1:
@@ -221,35 +210,31 @@ def order(H):
     while orbit == [alpha]:
         alpha += 1
         orbit = Orbit(H, alpha)
-    #print(orbit, alpha, H)
     return len(orbit) * order(Stabilizer(H, alpha))
 
 
 filename = str(input('What is the filename: '))
-display_counting = str(input('Display number of automorphisms? (Y/N) '))
-if display_counting == 'Y':
-    display_counting = True
+options = str(input('Isomorphism, automorphism or both? (I/A/B)'))
+if options == 'A':
+    with open(filename) as f:
+        L = load_graph(f)
+    for vertex in L.vertices:
+        vertex.colornum = 0
+    automorphism([L, L.copy()], {})
+    perm_objects = []
+    for p in permutations:
+        perm_objects.append(permutation(len(p), mapping=p))
+    perm_objects = Reduce(perm_objects)
+    count = order(perm_objects)
+    permutations = []
+    print('Graph:     #Aut')
+    print(f'0          {count}')
 else:
-    display_counting = False
+    display_counting = True
+    if options == 'I':
+        display_counting = False
+    with open(filename) as f:
+        L = load_graph(f, read_list=True)[0]
 
-with open(filename) as f:
-    L = load_graph(f, read_list=True)[0]
-t1 = timeit.default_timer()
-colorpartition(L, counting=display_counting)
-t2 = timeit.default_timer()
-print(t2-t1)
+    colorpartition(L, counting=display_counting)
 
-# idx = 6
-# for vertex in L[idx].vertices:
-#     vertex.colornum = 0
-
-# automorphism([L[idx], L[idx].copy()], {}, True)
-# perm_objects = []
-# for p in permutations:
-#     perm_objects.append(permutation(len(p), mapping=p))
-# print(perm_objects)
-# perm_objects = Reduce(perm_objects)
-# print(perm_objects)
-# count = order(perm_objects)
-# permutations = []
-# print(f'{count}')
